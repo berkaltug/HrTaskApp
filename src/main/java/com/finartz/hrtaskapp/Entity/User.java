@@ -1,10 +1,10 @@
 package com.finartz.hrtaskapp.Entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,9 +15,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="user_table")
 public class User {
+
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -28,15 +31,15 @@ public class User {
 	
 	@NotEmpty
 	private String surname;
+	@JsonIgnoreProperties("user")
+	@OneToMany(cascade=CascadeType.ALL,mappedBy="user")
+	private List<Task> tasks=new ArrayList<Task>();
 	
-	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY,mappedBy="user")
-	private List<Task> tasks;
-	
-	@ManyToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name="user_role",
 	joinColumns= {@JoinColumn(name="user_id")},
 	inverseJoinColumns= {@JoinColumn(name="role_id")})
-	private List<Role> roles;
+	private List<Role> roles=new ArrayList<Role>();
 	
 	public User() {
 	}
@@ -96,9 +99,5 @@ public class User {
 				+ "]";
 	}
 
-
-	
-	
-	
 	
 }

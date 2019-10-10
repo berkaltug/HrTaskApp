@@ -39,7 +39,7 @@ public class UserController {
 	
 	@GetMapping("/{user_id}/tasks")
 	public List<Task> getUserTasks(@PathVariable("user_id") Integer userId){
-		return userService.getUser(userId).getTasks(); // null dönebilir fetch lazy dedik
+		return userService.getUser(userId).getTasks(); 
 	}
 	
 	

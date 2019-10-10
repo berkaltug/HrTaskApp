@@ -1,17 +1,19 @@
 package com.finartz.hrtaskapp.Entity;
 
 import java.util.LinkedList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 
-
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 
 @Entity
@@ -33,19 +35,24 @@ public class Task implements Cloneable{
 	@NotNull
 	private Integer priority;
 	
-	private LinkedList<String> comments;
+	
+	@OneToMany(cascade=CascadeType.ALL,mappedBy="task")
+	@JsonIgnoreProperties("task")
+	private List<Comment> comments=new LinkedList<Comment>();
+	
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")
+	@JsonIgnoreProperties("tasks")
 	private User user;
 	
 	
 	public Task() {
 	}
 
-
-	public Task( @NotEmpty String title, @NotEmpty String body, String status, Integer priority,
-			LinkedList<String> comments, User user) {
+	public Task(Integer taskId, @NotEmpty String title, @NotEmpty String body, String status, Integer priority,
+			List<Comment> comments, User user) {
+		this.taskId = taskId;
 		this.title = title;
 		this.body = body;
 		this.status = status;
@@ -53,7 +60,6 @@ public class Task implements Cloneable{
 		this.comments = comments;
 		this.user = user;
 	}
-
 
 	public Integer getTaskId() {
 		return taskId;
@@ -97,11 +103,11 @@ public class Task implements Cloneable{
 		this.priority = priority;
 	}
 
-	public LinkedList<String> getComments() {
+	public List<Comment> getComments() {
 		return comments;
 	}
 
-	public void setComments(LinkedList<String> comments) {
+	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}	
 	
@@ -114,12 +120,6 @@ public class Task implements Cloneable{
 	}
 
 
-	@Override
-	public String toString() {
-		return "Task [id=" + taskId + ", title=" + title + ", body=" + body + ", status=" + status + ", priority="
-				+ priority + ", comments=" + comments + "]";
-	}
-	
 	protected Object clone() throws CloneNotSupportedException{
 		return super.clone();
 	}

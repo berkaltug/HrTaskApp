@@ -6,9 +6,9 @@ public interface TaskService {
 	
 	Task getTask(Integer id);
 	
-	void addTask(Task task);
+	Task addTask(Task task);
 	
-	void updateTask(Task task);
+	Task updateTask(Task task);
 
-	void deleteTask(Integer id);
+	int deleteTask(Integer id);
 }

@@ -4,8 +4,6 @@ import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.finartz.hrtaskapp.Entity.User;
@@ -26,9 +24,9 @@ public class UserServiceImpl implements UserService{
 	public User getUser(Integer id) {
 
 		try {
-			return userRepository.getOne(id);
+			return userRepository.findById(id).get();
 		}catch(Exception e) {
-			System.err.println(e);
+			System.err.println(e.getMessage());
 			return null;
 		}
 	}
@@ -44,7 +42,7 @@ public class UserServiceImpl implements UserService{
 		try {
 			return userRepository.save(user);
 		}catch(Exception e) {
-			System.err.println(e);
+			System.err.println(e.getMessage());
 			return null;
 		}
 	}
