@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.data.domain.Pageable;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -97,6 +99,11 @@ public class User {
 	public String toString() {
 		return "User [id=" + userId + ", name=" + name + ", surname=" + surname + ", tasks=" + tasks + ", roles=" + roles
 				+ "]";
+	}
+
+	public List<Task> getTasks(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

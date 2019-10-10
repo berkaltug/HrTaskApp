@@ -1,12 +1,14 @@
 package com.finartz.hrtaskapp.Services;
 
-import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.finartz.hrtaskapp.Entity.User;
 
 public interface UserService {
 	
-	List<User> getAllUsers();
+	Page<User> getAllUsers(Pageable pageable);
 	User getUser(Integer id);
 	User getUserByName(String name);
 	User addUser(User user);

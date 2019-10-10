@@ -2,7 +2,6 @@ package com.finartz.hrtaskapp.Services;
 
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
-import javax.transaction.RollbackException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,7 +48,7 @@ public class TaskServiceImpl implements TaskService{
 	@Override
 	public int deleteTask(Integer id) {
 		try {
-			taskRepository.delete(taskRepository.getOne(id));
+			taskRepository.delete(taskRepository.findById(id).get());
 			return 1;
 		}catch(EntityNotFoundException e) {
 			System.err.println(e.getMessage());
