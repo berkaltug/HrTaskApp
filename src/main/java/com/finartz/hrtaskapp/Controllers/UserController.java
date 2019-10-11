@@ -28,10 +28,10 @@ public class UserController {
 	
 	@SuppressWarnings("unchecked")
 	@GetMapping("/")
-	public List<User> getAllUser(@RequestParam int page){
+	public List<User> getAllUser(@RequestParam("page") int page){
 		
 		Pageable pageable=PageRequest.of(page, 10, Sort.by("name"));
-		return (List<User>) userService.getAllUsers(pageable);
+		 return userService.getAllUsers(pageable).getContent();
 		
 	}
 	
@@ -46,7 +46,8 @@ public class UserController {
 	}
 	
 	@GetMapping("/{user_id}/tasks")
-	public List<Task> getUserTasks(@PathVariable("user_id") Integer userId,@RequestParam int page){
+	public List<Task> getUserTasks(@PathVariable("user_id") Integer userId,@RequestParam("page") int page){
+		//Unnecessary sending pageable object
 		Pageable pageable=PageRequest.of(page, 5, Sort.by("priority"));
 		return userService.getUser(userId).getTasks(pageable); // bu fonksiyon doldurulacak
 	}

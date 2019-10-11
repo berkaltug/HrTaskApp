@@ -1,7 +1,9 @@
 package com.finartz.hrtaskapp.Entity;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -93,7 +95,21 @@ public class User {
 		this.tasks = tasks;
 	}
 
-
+	public List<Task> getTasks(Pageable pageable) {
+		//calculate pagination limits
+		int pageMin = pageable.getPageNumber()*pageable.getPageSize()+1;
+		int pageMax = pageable.getPageNumber()*pageable.getPageSize()+ pageable.getPageSize();
+		//ordering by priority 
+		tasks.sort(Comparator.comparing(Task::getPriority).reversed());
+		//filtering related tasks
+		List<Task> pagedTasks =
+				tasks
+				.stream()
+				.filter( task -> tasks.indexOf(task) >= pageMin && tasks.indexOf(task) <= pageMax )
+				.collect(Collectors.toList());
+		
+		return pagedTasks;
+	}
 
 	@Override
 	public String toString() {
@@ -101,10 +117,7 @@ public class User {
 				+ "]";
 	}
 
-	public List<Task> getTasks(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	
 }
