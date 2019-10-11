@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.finartz.hrtaskapp.Entity.User;
@@ -16,6 +17,8 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private UserRepository	userRepository;
+	@Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Override
 	public Page<User> getAllUsers(Pageable pageable) {
@@ -35,13 +38,20 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User getUserByName(String name) {
-		//düzenlencek
-		return null;
+		try {
+			return userRepository.findByName(name);
+		}catch(Exception e) {
+			System.err.println(e.getMessage());
+			return null;
+		}
 	}
 
 	@Override
 	public User addUser(User user) {
 		try {
+			if(!user.getPassword().contains("$2a$10$")) {
+				user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+				}
 			return userRepository.save(user);
 		}catch(Exception e) {
 			System.err.println(e.getMessage());

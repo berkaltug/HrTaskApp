@@ -9,4 +9,7 @@ import com.finartz.hrtaskapp.Entity.User;
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<User,Integer>{
 	
+	User findByName(String name);
+	User findByUsername(String username);
+	
 }

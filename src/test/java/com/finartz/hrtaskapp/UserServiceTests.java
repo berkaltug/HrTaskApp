@@ -41,7 +41,7 @@ class UserServiceTests {
 		List<Role> roles = new ArrayList<Role>();
 		
 		for(int i=0 ; i < 20 ; i++ ) {
-			User u = new User("berk","altug",tasks,roles);
+			User u = new User("berk","altug","berkaltug", "asdsd", "berk@gmail.com", tasks,roles);
 			Assert.notNull(userService.addUser(u));
 		}
 		

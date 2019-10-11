@@ -15,11 +15,14 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.data.domain.Pageable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
 @Table(name="user_table")
@@ -33,8 +36,19 @@ public class User {
 	@NotEmpty
 	private String name;
 	
+	@NotNull
+	private String username;
+	
+	@NotNull
+	private String password;
+	
+	@NotNull
+	@Email
+	private String email;
+	
 	@NotEmpty
 	private String surname;
+	
 	@JsonIgnoreProperties("user")
 	@OneToMany(cascade=CascadeType.ALL,mappedBy="user")
 	private List<Task> tasks=new ArrayList<Task>();
@@ -48,27 +62,54 @@ public class User {
 	public User() {
 	}
 
-	public User(@NotEmpty String name, @NotEmpty String surname, List<Task> tasks, List<Role> roles) {
+	public User(@NotEmpty String name, @NotNull String username, @NotNull String password, @NotNull @Email String email,
+			@NotEmpty String surname, List<Task> tasks, List<Role> roles) {
 		this.name = name;
+		this.username = username;
+		this.password = password;
+		this.email = email;
 		this.surname = surname;
 		this.tasks = tasks;
 		this.roles = roles;
 	}
-
-	public User(Integer id, @NotEmpty String name, @NotEmpty String surname, List<Task> tasks, List<Role> roles) {
-		this.userId = id;
-		this.name = name;
-		this.surname = surname;
-		this.tasks = tasks;
-		this.roles = roles;
-	}
-
-	public Integer getId() {
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setId(Integer id) {
-		this.userId = id;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
 	public String getName() {
