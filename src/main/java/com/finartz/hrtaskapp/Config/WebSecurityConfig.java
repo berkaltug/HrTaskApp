@@ -31,8 +31,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth)
 	        throws Exception
-	    {	//custom user detail service ile değiştirilecek
-	    	auth.userDetailsService(userDetailsService())
+	    {	
+	    	auth.userDetailsService(customUserDetailsService)
 	    	.passwordEncoder(passwordEncoder());
 	    }
 	
@@ -42,17 +42,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/users/**","/tasks/**")
 		.and()
 		.authorizeRequests()
-		.antMatchers("/login","/sign-up").permitAll()
+		.antMatchers("/sign-up").permitAll() // unused mapping
 		.antMatchers("/users/add").hasRole("ADMIN")
-		.antMatchers("/users/**").hasRole("USER")
+		.antMatchers("/users/**").hasAnyRole("ADMIN","USER")
+		.antMatchers("/tasks/add").hasRole("ADMIN")
+		.antMatchers("/tasks/**").hasRole("USER")
 		.and()
         .sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.NEVER)
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
         .csrf().disable()
         .httpBasic()
         .authenticationEntryPoint(authEntryPoint);
-		
 	}
 	
 }

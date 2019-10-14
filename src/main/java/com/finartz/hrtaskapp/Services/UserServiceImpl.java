@@ -6,8 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.finartz.hrtaskapp.Entity.User;
 import com.finartz.hrtaskapp.Repository.UserRepository;
@@ -45,7 +48,7 @@ public class UserServiceImpl implements UserService{
 			return null;
 		}
 	}
-
+	
 	@Override
 	public User addUser(User user) {
 		try {
@@ -58,5 +61,17 @@ public class UserServiceImpl implements UserService{
 			return null;
 		}
 	}
+	
+	@Override
+	public String findLoggedInUsername() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //System.out.println(principal);
+        
+        if (principal!=null) {
+            UserDetails ud=(UserDetails)principal;
+            return ud.getUsername();
+        }
 
+        return null;
+    }
 }

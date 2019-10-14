@@ -123,6 +123,13 @@ public class Task implements Cloneable{
 	protected Object clone() throws CloneNotSupportedException{
 		return super.clone();
 	}
+
+	@Override
+	public String toString() {
+		return "Task [taskId=" + taskId + ", title=" + title + ", body=" + body + ", status=" + status + ", priority="
+				+ priority + ", comments=" + comments ;
+		// buradan userı çıkarttık 2 toString çakışıp sonsuz döngüyle stackoverflow verdi.
+	}
 	
 	
 	

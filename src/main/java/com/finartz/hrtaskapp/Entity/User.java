@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -53,7 +54,7 @@ public class User {
 	@OneToMany(cascade=CascadeType.ALL,mappedBy="user")
 	private List<Task> tasks=new ArrayList<Task>();
 	
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	@JoinTable(name="user_role",
 	joinColumns= {@JoinColumn(name="user_id")},
 	inverseJoinColumns= {@JoinColumn(name="role_id")})
@@ -146,7 +147,7 @@ public class User {
 		List<Task> pagedTasks =
 				tasks
 				.stream()
-				.filter( task -> tasks.indexOf(task) >= pageMin && tasks.indexOf(task) <= pageMax )
+				.filter( task -> tasks.indexOf(task)+1 >= pageMin && tasks.indexOf(task)+1 <= pageMax )
 				.collect(Collectors.toList());
 		
 		return pagedTasks;
