@@ -20,7 +20,6 @@ public class Comment {
 	
 	@ManyToOne
 	@JoinColumn(name="task_id")
-	@JsonIgnoreProperties("comments")
 	private Task task;
 
 	public Comment() {

@@ -10,6 +10,7 @@ public class TaskDTO {
 	private String status;
 	private Integer priority;
 	private List<CommentDTO> comments=new LinkedList<CommentDTO>();
+	private String user;
 	
 	public TaskDTO() {
 	}
@@ -67,11 +68,5 @@ public class TaskDTO {
 		return "TaskDTO [title=" + title + ", body=" + body + ", status=" + status + ", priority=" + priority
 				+ ", comments=" + comments + "]";
 	}
-	
-	
-	
-	
-	
-	
-	
+
 }

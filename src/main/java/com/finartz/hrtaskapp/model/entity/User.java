@@ -50,7 +50,6 @@ public class User {
 	@NotEmpty
 	private String surname;
 	
-	@JsonIgnoreProperties("user")
 	@OneToMany(cascade=CascadeType.ALL,mappedBy="user")
 	private List<Task> tasks=new ArrayList<Task>();
 	

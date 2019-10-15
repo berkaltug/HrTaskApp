@@ -37,13 +37,11 @@ public class Task implements Cloneable{
 	
 	
 	@OneToMany(cascade=CascadeType.ALL,mappedBy="task")
-	@JsonIgnoreProperties("task")
 	private List<Comment> comments=new LinkedList<Comment>();
 	
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")
-	@JsonIgnoreProperties("tasks")
 	private User user;
 	
 	

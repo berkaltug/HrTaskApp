@@ -3,10 +3,15 @@ package com.finartz.hrtaskapp.model.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class UserDTO {
 	
+	private Integer userId;
 	private String name;
 	private String surname;
+	@JsonIgnore
 	private String password;
 	private String username;
 	private String email;
@@ -15,13 +20,23 @@ public class UserDTO {
 	public UserDTO() {
 	}
 
-	public UserDTO(String name, String surname, String password, String username, String email, List<TaskDTO> tasks) {
+	public UserDTO(Integer userId, String name, String surname, String password, String username, String email,
+			List<TaskDTO> tasks) {
+		this.userId = userId;
 		this.name = name;
 		this.surname = surname;
 		this.password = password;
 		this.username = username;
 		this.email = email;
 		this.tasks = tasks;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public String getName() {
@@ -39,11 +54,11 @@ public class UserDTO {
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
-
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
-
+	@JsonProperty
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -72,11 +87,6 @@ public class UserDTO {
 		this.tasks = tasks;
 	}
 
-	@Override
-	public String toString() {
-		return "UserDTO [name=" + name + ", surname=" + surname + ", password=" + password + ", username=" + username
-				+ ", email=" + email + ", tasks=" + tasks + "]";
-	}
 
 	
 	
