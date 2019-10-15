@@ -1,7 +1,10 @@
 package com.finartz.hrtaskapp.Repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.finartz.hrtaskapp.Entity.User;
@@ -9,7 +12,9 @@ import com.finartz.hrtaskapp.Entity.User;
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<User,Integer>{
 	
-	User findByName(String name);
+	@Query("select u from User u  where u.name like %?1%") 
+	List<User> findLikeName( String name);
+	
 	User findByUsername(String username);
 	
 }

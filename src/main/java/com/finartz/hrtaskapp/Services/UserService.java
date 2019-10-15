@@ -1,6 +1,8 @@
 package com.finartz.hrtaskapp.Services;
 
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -10,7 +12,7 @@ public interface UserService {
 	
 	Page<User> getAllUsers(Pageable pageable);
 	User getUser(Integer id);
-	User getUserByName(String name);
+	List<User> getUserByName(String name);
 	User addUser(User user);
 	String findLoggedInUsername();
 }

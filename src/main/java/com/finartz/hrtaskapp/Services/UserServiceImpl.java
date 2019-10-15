@@ -20,52 +20,69 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private UserRepository	userRepository;
+	
 	@Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Override
 	public Page<User> getAllUsers(Pageable pageable) {
+		
 		return userRepository.findAll(pageable);
+	
 	}
 
 	@Override
 	public User getUser(Integer id) {
 
 		try {
+			
 			return userRepository.findById(id).get();
+		
 		}catch(Exception e) {
+			
 			System.err.println(e.getMessage());
 			return null;
+		
 		}
 	}
 
 	@Override
-	public User getUserByName(String name) {
+	public List<User> getUserByName(String name) {
 		try {
-			return userRepository.findByName(name);
+			
+			return userRepository.findLikeName(name);
+		
 		}catch(Exception e) {
+			
 			System.err.println(e.getMessage());
 			return null;
+		
 		}
 	}
 	
 	@Override
 	public User addUser(User user) {
+		//check to ensure if password in correct format or not
 		try {
 			if(!user.getPassword().contains("$2a$10$")) {
+				
 				user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-				}
+			
+			}
+			
 			return userRepository.save(user);
 		}catch(Exception e) {
+			
 			System.err.println(e.getMessage());
 			return null;
+		
 		}
 	}
 	
 	@Override
 	public String findLoggedInUsername() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        //System.out.println(principal);
+        
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
         if (principal!=null) {
             UserDetails ud=(UserDetails)principal;

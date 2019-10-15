@@ -22,28 +22,37 @@ public class TaskController {
 	
 	@Autowired
 	private TaskService taskService;
+	
 	@Autowired 
 	private UserService userService;
 	
 	@GetMapping("{task_id}")
 	public Task getTask(@PathVariable("task_id") Integer taskId) {
+		
 		return taskService.getTask(taskId);
+		
 	}
 	
 	@PostMapping("/add")
 	public Task addTask(@RequestBody Task task) {
+		
 		return taskService.addTask(task);
+		
 	}
 	
 	@PutMapping("/{task_id}/edit")
 	public ResponseEntity<String> updateTask(@PathVariable("task_id") Integer taskId,@RequestBody Task newTask) {
+		
 		Task oldTask=taskService.getTask(taskId);
 		//is modifying his own task ?
 		if(userService.findLoggedInUsername().equals(oldTask.getUser().getUsername())) {
+			
 			oldTask=newTask;
 			taskService.updateTask(oldTask);
 			return new ResponseEntity<>("Update Successfull",HttpStatus.CREATED);
+		
 		}else {
+			
 			return new ResponseEntity<>("You can only modify your own tasks",HttpStatus.FORBIDDEN);
 		}
 			

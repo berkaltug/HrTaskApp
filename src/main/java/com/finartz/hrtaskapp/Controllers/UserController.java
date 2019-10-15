@@ -30,6 +30,7 @@ public class UserController {
 	
 	@Autowired 
 	private UserService userService;
+	
 	@Autowired
 	private RoleRepository roleRepository;
 	
@@ -44,26 +45,39 @@ public class UserController {
 	
 	@GetMapping("/{user_id}")
 	public User getUser(@PathVariable("user_id") Integer userId) {
+		
 		return userService.getUser(userId);
 	}
 	
 	@PostMapping("/add")
 	public User addUser(@RequestBody User user) {
+		
 		user.getRoles().add(roleRepository.findById(2).get());
 		return userService.addUser(user);
+	
 	}
 	
 	@GetMapping("/{user_id}/tasks")
 	public List<Task> getUserTasks(@PathVariable("user_id") Integer userId,@RequestParam("page") int page){
+		
 		//Unnecessary sending pageable object ??
 		Pageable pageable=PageRequest.of(page, 5, Sort.by("priority"));
 		User user=userService.getUser(userId);
 		System.out.println(user);
 		return user.getTasks(pageable); 
+	
+	}
+	
+	@GetMapping("/name/{name}")
+	public List<User> getUsersLike(@PathVariable("name") String name){
+
+		return userService.getUserByName(name);
+		
 	}
 	
 	@PostMapping("/login")
 	ResponseEntity<String> login(){
+		
 		return new ResponseEntity<>("Başarılı",HttpStatus.ACCEPTED);
 	}
 }
