@@ -1,4 +1,4 @@
-package com.finartz.hrtaskapp.Entity;
+package com.finartz.hrtaskapp.model.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +20,6 @@ public class Comment {
 	
 	@ManyToOne
 	@JoinColumn(name="task_id")
-	//@JsonBackReference(value="task-comment")
 	@JsonIgnoreProperties("comments")
 	private Task task;
 

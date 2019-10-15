@@ -1,4 +1,4 @@
-package com.finartz.hrtaskapp.Services;
+package com.finartz.hrtaskapp.services;
 
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
@@ -6,8 +6,8 @@ import javax.persistence.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.finartz.hrtaskapp.Entity.Task;
-import com.finartz.hrtaskapp.Repository.TaskRepository;
+import com.finartz.hrtaskapp.db.repository.TaskRepository;
+import com.finartz.hrtaskapp.model.entity.Task;
 
 @Service
 public class TaskServiceImpl implements TaskService{

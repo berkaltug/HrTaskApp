@@ -1,4 +1,4 @@
-package com.finartz.hrtaskapp.Services;
+package com.finartz.hrtaskapp.services;
 
 import java.util.Collection;
 
@@ -11,8 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.finartz.hrtaskapp.Entity.User;
-import com.finartz.hrtaskapp.Repository.UserRepository;
+import com.finartz.hrtaskapp.db.repository.UserRepository;
+import com.finartz.hrtaskapp.model.entity.User;
 
 
 @Service

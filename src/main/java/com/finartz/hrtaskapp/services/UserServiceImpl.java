@@ -1,4 +1,4 @@
-package com.finartz.hrtaskapp.Services;
+package com.finartz.hrtaskapp.services;
 
 import java.util.List;
 
@@ -12,18 +12,26 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.finartz.hrtaskapp.Entity.User;
-import com.finartz.hrtaskapp.Repository.UserRepository;
+import com.finartz.hrtaskapp.db.repository.RoleRepository;
+import com.finartz.hrtaskapp.db.repository.UserRepository;
+import com.finartz.hrtaskapp.model.entity.User;
 
 @Service
 public class UserServiceImpl implements UserService{
-	
-	@Autowired
+	public static final int ROLE_USER=2;
 	private UserRepository	userRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private RoleRepository roleRepository;
+	
 	
 	@Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+	public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder,
+			RoleRepository roleRepository) {
+		this.userRepository = userRepository;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+		this.roleRepository = roleRepository;
+	}
+
 	@Override
 	public Page<User> getAllUsers(Pageable pageable) {
 		
@@ -61,21 +69,17 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
-	public User addUser(User user) {
+	public void addUser(User user) {
+		//adding user role by default
+		user.getRoles().add(roleRepository.findById(ROLE_USER).get());
 		//check to ensure if password in correct format or not
 		try {
 			if(!user.getPassword().contains("$2a$10$")) {
-				
 				user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-			
 			}
-			
-			return userRepository.save(user);
+			userRepository.save(user);
 		}catch(Exception e) {
-			
 			System.err.println(e.getMessage());
-			return null;
-		
 		}
 	}
 	

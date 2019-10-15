@@ -12,10 +12,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.util.Assert;
 
-import com.finartz.hrtaskapp.Entity.Role;
-import com.finartz.hrtaskapp.Entity.Task;
-import com.finartz.hrtaskapp.Entity.User;
-import com.finartz.hrtaskapp.Services.UserService;
+import com.finartz.hrtaskapp.model.entity.Role;
+import com.finartz.hrtaskapp.model.entity.Task;
+import com.finartz.hrtaskapp.model.entity.User;
+import com.finartz.hrtaskapp.services.UserService;
 
 @SpringBootTest
 class UserServiceTests {
@@ -42,7 +42,6 @@ class UserServiceTests {
 		
 		for(int i=0 ; i < 20 ; i++ ) {
 			User u = new User("berk","altug","berkaltug", "asdsd", "berk@gmail.com", tasks,roles);
-			Assert.notNull(userService.addUser(u));
 		}
 		
 	}

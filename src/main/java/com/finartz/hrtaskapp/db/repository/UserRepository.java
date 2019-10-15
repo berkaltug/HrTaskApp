@@ -1,4 +1,4 @@
-package com.finartz.hrtaskapp.Repository;
+package com.finartz.hrtaskapp.db.repository;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.finartz.hrtaskapp.Entity.User;
+import com.finartz.hrtaskapp.model.entity.User;
 
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<User,Integer>{

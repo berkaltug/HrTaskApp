@@ -1,4 +1,4 @@
-package com.finartz.hrtaskapp.Config;
+package com.finartz.hrtaskapp.config;
 
 import java.io.IOException;
 import java.io.PrintWriter;

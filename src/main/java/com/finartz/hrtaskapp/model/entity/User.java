@@ -1,4 +1,4 @@
-package com.finartz.hrtaskapp.Entity;
+package com.finartz.hrtaskapp.model.entity;
 
 import java.util.ArrayList;
 import java.util.Comparator;

@@ -1,6 +1,6 @@
-package com.finartz.hrtaskapp.Services;
+package com.finartz.hrtaskapp.services;
 
-import com.finartz.hrtaskapp.Entity.Task;
+import com.finartz.hrtaskapp.model.entity.Task;
 
 public interface TaskService {
 	
