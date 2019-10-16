@@ -27,12 +27,12 @@ class UserServiceTests {
 	void contextLoads() {
 	}
 	
-	@Test
-	@Order(2)
-	void isLoadAllUser() {
-		Pageable pageable = PageRequest.of(0,10,Sort.by("name"));
-		Assert.notNull(userService.getAllUsers(pageable));
-	}
+//	@Test
+//	@Order(2)
+//	void isLoadAllUser() {
+//		Pageable pageable = PageRequest.of(0,10,Sort.by("name"));
+//		Assert.notNull(userService.getAllUsers(pageable));
+//	}
 	
 	@Test
 	@Order(1)

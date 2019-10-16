@@ -10,17 +10,19 @@ public class TaskDTO {
 	private String status;
 	private Integer priority;
 	private List<CommentDTO> comments=new LinkedList<CommentDTO>();
-	private String user;
+	private Integer userId;
 	
 	public TaskDTO() {
 	}
 
-	public TaskDTO(String title, String body, String status, Integer priority, List<CommentDTO> comments) {
+	public TaskDTO(String title, String body, String status, Integer priority, List<CommentDTO> comments,
+			Integer userId) {
 		this.title = title;
 		this.body = body;
 		this.status = status;
 		this.priority = priority;
 		this.comments = comments;
+		this.userId = userId;
 	}
 
 	public String getTitle() {
@@ -61,6 +63,14 @@ public class TaskDTO {
 
 	public void setComments(List<CommentDTO> comments) {
 		this.comments = comments;
+	}
+	
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	@Override

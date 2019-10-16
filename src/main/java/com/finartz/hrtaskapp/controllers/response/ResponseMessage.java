@@ -2,10 +2,12 @@ package com.finartz.hrtaskapp.controllers.response;
 
 public enum ResponseMessage {
 	UPDATED("Güncelleme Başarılı"),
+	DELETED("Silme işlemi başarılı"),
+	DELETEERROR("Silerken bir problem oluştu"),
 	LOGGEDIN("Giriş Başarılı"),
-	EDITERROR("Yalnızca Kendi Görevinizi Güncelleyebilirsiniz !"),
-	ADDED("Başarıyla Eklendi");
-	
+	EDITERROR("Güncelleme işleminde problem oluştu"),
+	ADDED("Başarıyla Eklendi"),
+	ADDINGERROR("Ekleme sırasında hata oluştu");
 	private String msg;
 	
 	ResponseMessage(String msg){

@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -40,17 +41,9 @@ public class UserController {
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("/")
-	public List<UserDTO> getAllUser(@RequestParam("page") int page){
+	public Page<UserDTO> getAllUser(@RequestParam("page") int page){
+		return userService.getAllUsers(page);
 		
-		Pageable pageable=PageRequest.of(page, 10, Sort.by("name"));
-		//mapping all users to UserDTO
-		List<UserDTO> allUsers=userService
-				.getAllUsers(pageable)
-				.getContent()
-				.stream()
-				.map(user -> modelMapper.map(user,UserDTO.class))
-				.collect(Collectors.toList());
-		return allUsers;
 	}
 	
 	@GetMapping("/{user_id}")
@@ -70,7 +63,7 @@ public class UserController {
 		//Unnecessary sending pageable object ??
 		Pageable pageable=PageRequest.of(page, 5, Sort.by("priority"));
 		User user=userService.getUser(userId);
-		System.out.println(user);
+		
 		return user
 				.getTasks(pageable)
 				.stream()

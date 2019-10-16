@@ -54,10 +54,12 @@ public class UserDTO {
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
+	
 	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
+	
 	@JsonProperty
 	public void setPassword(String password) {
 		this.password = password;

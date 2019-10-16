@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -18,6 +19,9 @@ public class Comment {
 	
 	private String message;
 	
+	
+	private String senderUsername;
+	
 	@ManyToOne
 	@JoinColumn(name="task_id")
 	private Task task;
@@ -25,10 +29,11 @@ public class Comment {
 	public Comment() {
 	}
 
-	public Comment(Integer commentId, String message,Task task) {
+	public Comment(Integer commentId, String message, String sender, Task task) {
 		this.commentId = commentId;
 		this.message = message;
-		this.task=task;
+		this.senderUsername = senderUsername;
+		this.task = task;
 	}
 
 	public Integer getCommentId() {
@@ -53,6 +58,14 @@ public class Comment {
 
 	public void setTask(Task task) {
 		this.task = task;
+	}
+
+	public String getSender() {
+		return senderUsername;
+	}
+
+	public void setSender(String sender) {
+		this.senderUsername = sender;
 	}
 
 	@Override

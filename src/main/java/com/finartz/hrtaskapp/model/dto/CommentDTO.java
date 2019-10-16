@@ -10,14 +10,19 @@ public class CommentDTO {
 
 	public CommentDTO() {
 	}
+	
+	
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
 	@Override
 	public String toString() {
 		return "CommentDTO [message=" + message + "]";
 	}
-
-	
-	
-	
 	
 }
