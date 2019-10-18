@@ -7,7 +7,7 @@ public interface TaskService {
 	
 	Task getTask(Integer id);
 	
-	Task addTask(Task task);
+	Task addTask(Task task, Integer userId);
 	
 	Task updateTask(Task task,Integer taskId);
 

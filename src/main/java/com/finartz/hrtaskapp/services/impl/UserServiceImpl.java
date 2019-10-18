@@ -1,14 +1,19 @@
 package com.finartz.hrtaskapp.services.impl;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import com.finartz.hrtaskapp.model.entity.Task;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,6 +27,8 @@ import com.finartz.hrtaskapp.services.UserService;
 
 @Service
 public class UserServiceImpl implements UserService{
+	
+	Logger logger=LoggerFactory.getLogger(UserServiceImpl.class);
 	
 	public static final int ROLE_USER=2;
 	private UserRepository	userRepository;
@@ -45,7 +52,6 @@ public class UserServiceImpl implements UserService{
 				.findAll(pageable)
 				.map(page-> modelMapper.map(page, UserDTO.class));
 		return allUsersDTO;
-	
 	}
 
 	@Override
@@ -53,24 +59,29 @@ public class UserServiceImpl implements UserService{
 		try {
 			return userRepository.findById(id).get();
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			logger.error(e.getMessage());
 			return null;
 		}
 	}
 
-	
+	@Override
+	public User getUserByUsername(String username) {
+		return userRepository.findByUsername(username);
+	}
+
+
 	@Override
 	public List<User> getUserByName(String name) {
 		try {
 			return userRepository.findLikeName(name);
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			logger.error(e.getMessage());
 			return null;
 		}
 	}
 	
 	@Override
-	public void addUser(User user) {
+	public User addUser(User user) {
 		//adding user role by default
 		user.getRoles().add(roleRepository.findById(ROLE_USER).get());
 		//check to ensure if password in correct format or not
@@ -78,9 +89,10 @@ public class UserServiceImpl implements UserService{
 			if(!user.getPassword().contains("$2a$10$")) {
 				user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 			}
-			userRepository.save(user);
+			return userRepository.save(user);
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			logger.error(e.getMessage());
+			return null;
 		}
 	}
 	
@@ -93,4 +105,22 @@ public class UserServiceImpl implements UserService{
         }
         return null;
     }
+
+	@Override
+	public Collection<GrantedAuthority> findLoggedInRoles() {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(principal!=null){
+			UserDetails ud=(UserDetails)principal;
+			return (Collection<GrantedAuthority>)ud.getAuthorities();
+		}else{
+			return null;
+		}
+	}
+
+	@Override
+	public Boolean isAdmin() {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails ud=(UserDetails)principal;
+		return ud.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
+	}
 }

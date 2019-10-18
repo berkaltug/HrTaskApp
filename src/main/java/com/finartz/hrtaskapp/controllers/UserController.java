@@ -53,8 +53,11 @@ public class UserController {
 	
 	@PostMapping("/add")
 	public ResponseEntity<String> addUser(@RequestBody UserDTO userDTO) {
-		 userService.addUser(modelMapper.map(userDTO, User.class));
-		 return new ResponseEntity<>(ResponseMessage.ADDED.get(),HttpStatus.CREATED);
+		 User user = userService.addUser(modelMapper.map(userDTO, User.class));
+		 if(user!=null)
+		 	return new ResponseEntity<>(ResponseMessage.ADDED.get(),HttpStatus.CREATED);
+		 else
+		 	return new ResponseEntity<>(ResponseMessage.ADDINGERROR.get(),HttpStatus.NOT_ACCEPTABLE);
 	}
 	
 	@GetMapping("/{user_id}/tasks")
@@ -84,7 +87,6 @@ public class UserController {
 	
 	@PostMapping("/login")
 	ResponseEntity<String> login(){
-		
 		return new ResponseEntity<>(ResponseMessage.LOGGEDIN.get(),HttpStatus.ACCEPTED);
 	}
 }

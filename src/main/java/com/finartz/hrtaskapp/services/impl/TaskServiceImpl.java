@@ -35,29 +35,32 @@ public class TaskServiceImpl implements TaskService{
 
 	@Override
 	public Task getTask(Integer id) {
-		
 		return taskRepository.findById(id).get();
 	}
 
 	@Override
-	public Task addTask(Task task) {
-		try {
+	public Task addTask(Task task,Integer userId) {
+		
+		task.setUser(userService.getUser(userId));
+		if(task.getUser()!=null) {
 			return taskRepository.save(task);
-		}catch(Exception e) {
-			logger.error("Couldn't add task" + e.getMessage());
+		}else {
 			return null;
-		}
+		}	
 	}
 	
 	//Persistence Exceptionları ayrı yakalamaya gerek var mı bak !
 	@Override
 	public Task updateTask(Task task,Integer taskId) {
 		try {
-			//is modifying his own task ?
 			Task oldTask=taskRepository.findById(taskId).get();
-			//DTO'nun içinde id olmadığı için id set ediyoruz ki düzgün güncellemiş
+			//DTO'nun içinde id olmadığı için id set ediyoruz ki düzgün güncellesin
 			task.setTaskId(oldTask.getTaskId());
-			if(userService.findLoggedInUsername().equals(oldTask.getUser().getUsername())) {
+			//is modifying his own task ?
+			if(	userService.findLoggedInUsername().equals(task.getUser().getUsername())
+					||
+					userService.isAdmin())
+				 {
 				return taskRepository.save(task);
 			}else {
 				return null;
@@ -70,7 +73,6 @@ public class TaskServiceImpl implements TaskService{
 			logger.error(e.getMessage());
 			return null;
 		}
-		
 	}
 
 	@Override
@@ -90,14 +92,14 @@ public class TaskServiceImpl implements TaskService{
 	@Override
 	public int commentTask(Comment comment,Integer taskId) {
 		try {
-		Task task=taskRepository.findById(taskId).get();
-		comment.setSender(userService.findLoggedInUsername());
-		comment.setTask(task);
-		commentRepository.save(comment);
-		return 1;
-	}catch(PersistenceException e) {
-		logger.error(e.getMessage());
-		return 0;
+			Task task=taskRepository.findById(taskId).get();
+			comment.setSender(userService.findLoggedInUsername());
+			comment.setTask(task);
+			commentRepository.save(comment);
+			return 1;
+		}catch(PersistenceException e) {
+			logger.error(e.getMessage());
+			return 0;
+		}
 	}
-   }
 }
