@@ -56,7 +56,7 @@ public class JwtWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/**","/tasks/**")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/authenticate").permitAll() // unused mapping
+                .antMatchers("/authenticate").permitAll()
                 .antMatchers("/users/add").hasRole("ADMIN")
                 .antMatchers("/users/**").hasAnyRole("ADMIN","USER")
                 .antMatchers("/tasks/add").hasRole("ADMIN")
