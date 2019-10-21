@@ -1,4 +1,4 @@
-package com.finartz.hrtaskapp.config;
+package com.finartz.hrtaskapp.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

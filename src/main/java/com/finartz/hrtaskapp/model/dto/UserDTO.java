@@ -2,6 +2,7 @@ package com.finartz.hrtaskapp.model.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -89,7 +90,22 @@ public class UserDTO {
 		this.tasks = tasks;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof UserDTO)) return false;
+		UserDTO userDTO = (UserDTO) o;
+		return Objects.equals(userId, userDTO.userId) &&
+				Objects.equals(name, userDTO.name) &&
+				Objects.equals(surname, userDTO.surname) &&
+				Objects.equals(password, userDTO.password) &&
+				Objects.equals(username, userDTO.username) &&
+				Objects.equals(email, userDTO.email) &&
+				Objects.equals(tasks, userDTO.tasks);
+	}
 
-	
-	
+	@Override
+	public int hashCode() {
+		return Objects.hash(userId, name, surname, password, username, email, tasks);
+	}
 }

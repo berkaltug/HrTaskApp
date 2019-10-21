@@ -2,6 +2,7 @@ package com.finartz.hrtaskapp.model.dto;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class TaskDTO {
 	
@@ -79,4 +80,21 @@ public class TaskDTO {
 				+ ", comments=" + comments + "]";
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof TaskDTO)) return false;
+		TaskDTO taskDTO = (TaskDTO) o;
+		return Objects.equals(title, taskDTO.title) &&
+				Objects.equals(body, taskDTO.body) &&
+				Objects.equals(status, taskDTO.status) &&
+				Objects.equals(priority, taskDTO.priority) &&
+				Objects.equals(comments, taskDTO.comments) &&
+				Objects.equals(userId, taskDTO.userId);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(title, body, status, priority, comments, userId);
+	}
 }

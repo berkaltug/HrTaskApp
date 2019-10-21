@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
+import java.util.Objects;
 
 @Entity
 public class Role {
@@ -43,8 +44,18 @@ public class Role {
 	public String toString() {
 		return "Role [id=" + roleId + ", role=" + role + "]";
 	}
-	
-	
-	
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Role)) return false;
+		Role role1 = (Role) o;
+		return Objects.equals(roleId, role1.roleId) &&
+				Objects.equals(role, role1.role);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(roleId, role);
+	}
 }

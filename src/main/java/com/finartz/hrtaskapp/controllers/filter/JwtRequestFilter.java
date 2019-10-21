@@ -1,6 +1,6 @@
 package com.finartz.hrtaskapp.controllers.filter;
 
-import com.finartz.hrtaskapp.config.JwtTokenUtil;
+import com.finartz.hrtaskapp.util.JwtTokenUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

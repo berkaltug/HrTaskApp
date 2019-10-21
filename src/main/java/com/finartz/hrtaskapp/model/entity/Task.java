@@ -2,6 +2,7 @@ package com.finartz.hrtaskapp.model.entity;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -128,7 +129,23 @@ public class Task implements Cloneable{
 				+ priority + ", comments=" + comments ;
 		// buradan userı çıkarttık 2 toString çakışıp sonsuz döngüyle stackoverflow verdi.
 	}
-	
-	
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Task)) return false;
+		Task task = (Task) o;
+		return taskId.equals(task.taskId) &&
+				title.equals(task.title) &&
+				body.equals(task.body) &&
+				status.equals(task.status) &&
+				priority.equals(task.priority) &&
+				comments.equals(task.comments) &&
+				user.equals(task.user);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(taskId, title, body, status, priority, comments, user);
+	}
 }

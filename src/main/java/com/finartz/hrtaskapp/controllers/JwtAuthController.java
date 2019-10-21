@@ -1,8 +1,8 @@
 package com.finartz.hrtaskapp.controllers;
 
-import com.finartz.hrtaskapp.config.JwtTokenUtil;
 import com.finartz.hrtaskapp.model.JwtRequest;
 import com.finartz.hrtaskapp.model.JwtResponse;
+import com.finartz.hrtaskapp.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;

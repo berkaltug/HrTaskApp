@@ -10,6 +10,8 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.Objects;
+
 @Entity
 public class Comment {
 	
@@ -72,6 +74,20 @@ public class Comment {
 	public String toString() {
 		return "Comments [commentId=" + commentId + ", message=" + message + "]";
 	}
-	
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Comment)) return false;
+		Comment comment = (Comment) o;
+		return commentId.equals(comment.commentId) &&
+				message.equals(comment.message) &&
+				senderUsername.equals(comment.senderUsername) &&
+				task.equals(comment.task);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(commentId, message, senderUsername, task);
+	}
 }

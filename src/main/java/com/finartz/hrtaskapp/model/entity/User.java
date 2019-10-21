@@ -3,6 +3,7 @@ package com.finartz.hrtaskapp.model.entity;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.persistence.*;
@@ -149,7 +150,23 @@ public class User {
 				+ "]";
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof User)) return false;
+		User user = (User) o;
+		return userId.equals(user.userId) &&
+				name.equals(user.name) &&
+				username.equals(user.username) &&
+				password.equals(user.password) &&
+				email.equals(user.email) &&
+				surname.equals(user.surname) &&
+				tasks.equals(user.tasks) &&
+				roles.equals(user.roles);
+	}
 
-
-	
+	@Override
+	public int hashCode() {
+		return Objects.hash(userId, name, username, password, email, surname, tasks, roles);
+	}
 }
