@@ -3,6 +3,7 @@ package com.finartz.hrtaskapp.services.impl;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 
+import com.finartz.hrtaskapp.model.TaskStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import com.finartz.hrtaskapp.model.entity.Task;
 import com.finartz.hrtaskapp.services.TaskService;
 import com.finartz.hrtaskapp.services.UserService;
 
+import java.util.Date;
 
 
 @Service
@@ -42,6 +44,7 @@ public class TaskServiceImpl implements TaskService{
 	public Task addTask(Task task,Integer userId) {
 		
 		task.setUser(userService.getUser(userId));
+		task.setCreationDate(new Date());
 		if(task.getUser()!=null) {
 			return taskRepository.save(task);
 		}else {
@@ -56,7 +59,12 @@ public class TaskServiceImpl implements TaskService{
 			Task oldTask=taskRepository.findById(taskId).get();
 			//DTO'nun içinde id olmadığı için id set ediyoruz ki düzgün güncellesin
 			task.setTaskId(oldTask.getTaskId());
-			//is modifying his own task ?
+			task.setUpdateDate(new Date());
+			//done yapıldıysa kapama tarihi ata
+			if(task.getStatus()== TaskStatus.DONE.get()){
+				task.setCloseDate(new Date());
+			}
+			//kendi taskını mı güncelliyor ?
 			if(	userService.findLoggedInUsername().equals(task.getUser().getUsername())
 					||
 					userService.isAdmin())
@@ -80,9 +88,6 @@ public class TaskServiceImpl implements TaskService{
 		try {
 			taskRepository.delete(taskRepository.findById(id).get());
 			return 1;
-		}catch(EntityNotFoundException e) {
-			logger.error(e.getMessage());
-			return 0;
 		}catch(Exception e) {
 			logger.error(e.getMessage());
 			return 0;

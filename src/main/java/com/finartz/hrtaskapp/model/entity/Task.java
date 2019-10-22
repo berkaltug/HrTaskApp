@@ -1,17 +1,11 @@
 package com.finartz.hrtaskapp.model.entity;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -35,8 +29,17 @@ public class Task implements Cloneable{
 	
 	@NotNull
 	private Integer priority;
-	
-	
+
+	@Temporal(TemporalType.DATE)
+	@NotEmpty
+	private Date creationDate;
+
+	@Temporal(TemporalType.DATE)
+	private Date updateDate;
+
+	@Temporal(TemporalType.DATE)
+	private Date closeDate;
+
 	@OneToMany(cascade=CascadeType.ALL,mappedBy="task")
 	private List<Comment> comments=new LinkedList<Comment>();
 	
@@ -50,7 +53,7 @@ public class Task implements Cloneable{
 	}
 
 	public Task(Integer taskId, @NotEmpty String title, @NotEmpty String body, String status, Integer priority,
-			List<Comment> comments, User user) {
+			List<Comment> comments, User user,Date creationDate,Date updateDate,Date closeDate) {
 		this.taskId = taskId;
 		this.title = title;
 		this.body = body;
@@ -58,6 +61,9 @@ public class Task implements Cloneable{
 		this.priority = priority;
 		this.comments = comments;
 		this.user = user;
+		this.creationDate= creationDate;
+		this.updateDate=updateDate;
+		this.closeDate=closeDate;
 	}
 
 	public Integer getTaskId() {
@@ -118,16 +124,33 @@ public class Task implements Cloneable{
 		this.user = user;
 	}
 
+	public Date getCreationDate() {
+		return creationDate;
+	}
 
-	protected Object clone() throws CloneNotSupportedException{
-		return super.clone();
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public Date getCloseDate() {
+		return closeDate;
+	}
+
+	public void setCloseDate(Date closeDate) {
+		this.closeDate = closeDate;
 	}
 
 	@Override
-	public String toString() {
-		return "Task [taskId=" + taskId + ", title=" + title + ", body=" + body + ", status=" + status + ", priority="
-				+ priority + ", comments=" + comments ;
-		// buradan userı çıkarttık 2 toString çakışıp sonsuz döngüyle stackoverflow verdi.
+	protected Object clone() throws CloneNotSupportedException{
+		return super.clone();
 	}
 
 	@Override
@@ -135,17 +158,36 @@ public class Task implements Cloneable{
 		if (this == o) return true;
 		if (!(o instanceof Task)) return false;
 		Task task = (Task) o;
-		return taskId.equals(task.taskId) &&
-				title.equals(task.title) &&
-				body.equals(task.body) &&
-				status.equals(task.status) &&
-				priority.equals(task.priority) &&
-				comments.equals(task.comments) &&
-				user.equals(task.user);
+		return Objects.equals(taskId, task.taskId) &&
+				Objects.equals(title, task.title) &&
+				Objects.equals(body, task.body) &&
+				Objects.equals(status, task.status) &&
+				Objects.equals(priority, task.priority) &&
+				Objects.equals(creationDate, task.creationDate) &&
+				Objects.equals(updateDate, task.updateDate) &&
+				Objects.equals(closeDate, task.closeDate) &&
+				Objects.equals(comments, task.comments) &&
+				Objects.equals(user, task.user);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(taskId, title, body, status, priority, comments, user);
+		return Objects.hash(taskId, title, body, status, priority, creationDate, updateDate, closeDate, comments, user);
+	}
+
+	@Override
+	public String toString() {
+		return "Task{" +
+				"taskId=" + taskId +
+				", title='" + title + '\'' +
+				", body='" + body + '\'' +
+				", status='" + status + '\'' +
+				", priority=" + priority +
+				", creationDate=" + creationDate +
+				", updateDate=" + updateDate +
+				", closeDate=" + closeDate +
+				", comments=" + comments +
+				", user=" + user +
+				'}';
 	}
 }

@@ -5,7 +5,6 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,7 +31,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         	throw  new UsernameNotFoundException(username +" not found");
         }
         
-        org.springframework.security.core.userdetails.User authUser = new org.springframework.security.core.userdetails.User(
+        return new org.springframework.security.core.userdetails.User(
         		user.getUsername(),
         		user.getPassword(),
         		true,
@@ -40,9 +39,6 @@ public class CustomUserDetailsService implements UserDetailsService {
                 credentialsNonExpired, 
                 accountNonLocked, 
         		getAuthorities(user));
-        
-        return authUser;
-
 	}
 
 	private static Collection<? extends GrantedAuthority> getAuthorities(User user)
@@ -51,8 +47,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         					.stream()
         					.map(role->role.getRole())
         					.toArray(String[]::new);
-        Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
-        return authorities;
+        return AuthorityUtils.createAuthorityList(userRoles);
     }
 	
 	

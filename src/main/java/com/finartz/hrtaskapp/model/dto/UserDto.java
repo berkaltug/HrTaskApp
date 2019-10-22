@@ -7,7 +7,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class UserDTO {
+public class UserDto {
 	
 	private Integer userId;
 	private String name;
@@ -16,13 +16,13 @@ public class UserDTO {
 	private String password;
 	private String username;
 	private String email;
-	private List<TaskDTO> tasks=new ArrayList<TaskDTO>();
+	private List<TaskDto> tasks=new ArrayList<TaskDto>();
 	
-	public UserDTO() {
+	public UserDto() {
 	}
 
-	public UserDTO(Integer userId, String name, String surname, String password, String username, String email,
-			List<TaskDTO> tasks) {
+	public UserDto(Integer userId, String name, String surname, String password, String username, String email,
+				   List<TaskDto> tasks) {
 		this.userId = userId;
 		this.name = name;
 		this.surname = surname;
@@ -82,19 +82,19 @@ public class UserDTO {
 		this.email = email;
 	}
 
-	public List<TaskDTO> getTasks() {
+	public List<TaskDto> getTasks() {
 		return tasks;
 	}
 
-	public void setTasks(List<TaskDTO> tasks) {
+	public void setTasks(List<TaskDto> tasks) {
 		this.tasks = tasks;
 	}
 
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof UserDTO)) return false;
-		UserDTO userDTO = (UserDTO) o;
+		if (!(o instanceof UserDto)) return false;
+		UserDto userDTO = (UserDto) o;
 		return Objects.equals(userId, userDTO.userId) &&
 				Objects.equals(name, userDTO.name) &&
 				Objects.equals(surname, userDTO.surname) &&

@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.finartz.hrtaskapp.controllers.response.ResponseMessage;
-import com.finartz.hrtaskapp.model.dto.TaskDTO;
-import com.finartz.hrtaskapp.model.dto.UserDTO;
+import com.finartz.hrtaskapp.model.dto.TaskDto;
+import com.finartz.hrtaskapp.model.dto.UserDto;
 import com.finartz.hrtaskapp.model.entity.User;
 import com.finartz.hrtaskapp.services.UserService;
 
@@ -41,18 +41,18 @@ public class UserController {
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("/")
-	public Page<UserDTO> getAllUser(@RequestParam("page") int page){
+	public Page<UserDto> getAllUser(@RequestParam("page") int page){
 		return userService.getAllUsers(page);
 		
 	}
 	
 	@GetMapping("/{user_id}")
-	public UserDTO getUser(@PathVariable("user_id") Integer userId) {
-		return modelMapper.map(userService.getUser(userId),UserDTO.class);
+	public UserDto getUser(@PathVariable("user_id") Integer userId) {
+		return modelMapper.map(userService.getUser(userId), UserDto.class);
 	}
 	
 	@PostMapping("/add")
-	public ResponseEntity<String> addUser(@RequestBody UserDTO userDTO) {
+	public ResponseEntity<String> addUser(@RequestBody UserDto userDTO) {
 		 User user = userService.addUser(modelMapper.map(userDTO, User.class));
 		 if(user!=null)
 		 	return new ResponseEntity<>(ResponseMessage.ADDED.get(),HttpStatus.CREATED);
@@ -61,7 +61,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/{user_id}/tasks")
-	public List<TaskDTO> getUserTasks(@PathVariable("user_id") Integer userId,@RequestParam("page") int page){
+	public List<TaskDto> getUserTasks(@PathVariable("user_id") Integer userId, @RequestParam("page") int page){
 		
 		//Unnecessary sending pageable object ??
 		Pageable pageable=PageRequest.of(page, 5, Sort.by("priority"));
@@ -70,17 +70,17 @@ public class UserController {
 		return user
 				.getTasks(pageable)
 				.stream()
-				.map(task -> modelMapper.map(task, TaskDTO.class))
+				.map(task -> modelMapper.map(task, TaskDto.class))
 				.collect(Collectors.toList()); 
 	
 	}
 	
 	@GetMapping("/name/{name}")
-	public List<UserDTO> getUsersLike(@PathVariable("name") String name){
+	public List<UserDto> getUsersLike(@PathVariable("name") String name){
 
 		return userService.getUserByName(name)
 				.stream()
-				.map(user -> modelMapper.map( user , UserDTO.class))
+				.map(user -> modelMapper.map( user , UserDto.class))
 				.collect(Collectors.toList());
 		
 	}

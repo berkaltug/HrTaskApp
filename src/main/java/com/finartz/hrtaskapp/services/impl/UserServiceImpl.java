@@ -1,9 +1,9 @@
 package com.finartz.hrtaskapp.services.impl;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
-import com.finartz.hrtaskapp.model.entity.Task;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 
 import com.finartz.hrtaskapp.db.repository.RoleRepository;
 import com.finartz.hrtaskapp.db.repository.UserRepository;
-import com.finartz.hrtaskapp.model.dto.UserDTO;
+import com.finartz.hrtaskapp.model.dto.UserDto;
 import com.finartz.hrtaskapp.model.entity.User;
 import com.finartz.hrtaskapp.services.UserService;
 
@@ -46,12 +46,11 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public Page<UserDTO> getAllUsers(Integer pageNo) {
+	public Page<UserDto> getAllUsers(Integer pageNo) {
 		Pageable pageable=PageRequest.of(pageNo, 10, Sort.by("name"));
-		Page<UserDTO> allUsersDTO=userRepository
+		return userRepository
 				.findAll(pageable)
-				.map(page-> modelMapper.map(page, UserDTO.class));
-		return allUsersDTO;
+				.map(page-> modelMapper.map(page, UserDto.class));
 	}
 
 	@Override
@@ -76,7 +75,7 @@ public class UserServiceImpl implements UserService{
 			return userRepository.findLikeName(name);
 		}catch(Exception e) {
 			logger.error(e.getMessage());
-			return null;
+			return Collections.emptyList();
 		}
 	}
 	
@@ -113,12 +112,12 @@ public class UserServiceImpl implements UserService{
 			UserDetails ud=(UserDetails)principal;
 			return (Collection<GrantedAuthority>)ud.getAuthorities();
 		}else{
-			return null;
+			return Collections.emptyList();
 		}
 	}
 
 	@Override
-	public Boolean isAdmin() {
+	public boolean isAdmin() {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserDetails ud=(UserDetails)principal;
 		return ud.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));

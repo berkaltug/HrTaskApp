@@ -43,13 +43,13 @@ public class User {
 	private String surname;
 	
 	@OneToMany(cascade=CascadeType.ALL,mappedBy="user")
-	private List<Task> tasks=new ArrayList<Task>();
+	private List<Task> tasks=new ArrayList<>();
 	
 	@ManyToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	@JoinTable(name="user_role",
 	joinColumns= {@JoinColumn(name="user_id")},
 	inverseJoinColumns= {@JoinColumn(name="role_id")})
-	private List<Role> roles=new ArrayList<Role>();
+	private List<Role> roles=new ArrayList<>();
 	
 	public User() {
 	}

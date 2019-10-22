@@ -2,15 +2,15 @@ package com.finartz.hrtaskapp.model.dto;
 
 import java.util.Objects;
 
-public class CommentDTO {
+public class CommentDto {
 	
 	private String message;
 	
-	public CommentDTO(String message) {
+	public CommentDto(String message) {
 		this.message = message;
 	}
 
-	public CommentDTO() {
+	public CommentDto() {
 	}
 	
 	
@@ -30,8 +30,8 @@ public class CommentDTO {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof CommentDTO)) return false;
-		CommentDTO that = (CommentDTO) o;
+		if (!(o instanceof CommentDto)) return false;
+		CommentDto that = (CommentDto) o;
 		return message.equals(that.message);
 	}
 

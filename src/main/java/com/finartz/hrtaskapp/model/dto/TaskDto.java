@@ -4,20 +4,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class TaskDTO {
+public class TaskDto {
 	
 	private String title;
 	private String body;
 	private String status;
 	private Integer priority;
-	private List<CommentDTO> comments=new LinkedList<CommentDTO>();
+	private List<CommentDto> comments=new LinkedList<CommentDto>();
 	private Integer userId;
 	
-	public TaskDTO() {
+	public TaskDto() {
 	}
 
-	public TaskDTO(String title, String body, String status, Integer priority, List<CommentDTO> comments,
-			Integer userId) {
+	public TaskDto(String title, String body, String status, Integer priority, List<CommentDto> comments,
+				   Integer userId) {
 		this.title = title;
 		this.body = body;
 		this.status = status;
@@ -58,11 +58,11 @@ public class TaskDTO {
 		this.priority = priority;
 	}
 
-	public List<CommentDTO> getComments() {
+	public List<CommentDto> getComments() {
 		return comments;
 	}
 
-	public void setComments(List<CommentDTO> comments) {
+	public void setComments(List<CommentDto> comments) {
 		this.comments = comments;
 	}
 	
@@ -83,8 +83,8 @@ public class TaskDTO {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof TaskDTO)) return false;
-		TaskDTO taskDTO = (TaskDTO) o;
+		if (!(o instanceof TaskDto)) return false;
+		TaskDto taskDTO = (TaskDto) o;
 		return Objects.equals(title, taskDTO.title) &&
 				Objects.equals(body, taskDTO.body) &&
 				Objects.equals(status, taskDTO.status) &&
