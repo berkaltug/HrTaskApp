@@ -1,7 +1,9 @@
 package com.finartz.hrtaskapp.db.repository;
 
 import com.finartz.hrtaskapp.model.entity.Process;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ProcessRepository extends JpaRepository<Process , Integer> {
+@Repository
+public interface ProcessRepository extends PagingAndSortingRepository<Process,Integer> {
 }

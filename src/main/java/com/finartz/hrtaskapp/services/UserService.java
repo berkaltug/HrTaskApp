@@ -13,11 +13,12 @@ import org.springframework.security.core.GrantedAuthority;
 public interface UserService {
 	
 	Page<UserDto> getAllUsers(Integer page);
-	User getUser(Integer id);
+	User getUser(Integer id) throws Exception;
 	User getUserByUsername(String username);
 	List<User> getUserByName(String name);
 	User addUser(User user);
 	String findLoggedInUsername();
 	Collection<GrantedAuthority> findLoggedInRoles();
 	boolean isAdmin();
+
 }

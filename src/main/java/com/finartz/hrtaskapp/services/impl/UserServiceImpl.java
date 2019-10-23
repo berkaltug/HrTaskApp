@@ -54,13 +54,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User getUser(Integer id) {
-		try {
+	public User getUser(Integer id) throws Exception{
 			return userRepository.findById(id).get();
-		}catch(Exception e) {
-			logger.error(e.getMessage());
-			return null;
-		}
 	}
 
 	@Override
@@ -84,15 +79,10 @@ public class UserServiceImpl implements UserService{
 		//adding user role by default
 		user.getRoles().add(roleRepository.findById(ROLE_USER).get());
 		//check to ensure if password in correct format or not
-		try {
 			if(!user.getPassword().contains("$2a$10$")) {
 				user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 			}
 			return userRepository.save(user);
-		}catch(Exception e) {
-			logger.error(e.getMessage());
-			return null;
-		}
 	}
 	
 	@Override

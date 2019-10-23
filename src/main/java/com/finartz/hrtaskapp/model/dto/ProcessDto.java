@@ -13,6 +13,9 @@ public class ProcessDto {
     private Date updateDate;
     private Date closeDate;
 
+    public ProcessDto() {
+    }
+
     public ProcessDto(Integer processId, List<TaskDto> tasks, String status, Date creationDate, Date updateDate, Date closeDate) {
         this.processId = processId;
         this.tasks = tasks;

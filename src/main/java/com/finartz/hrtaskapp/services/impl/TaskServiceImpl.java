@@ -36,12 +36,12 @@ public class TaskServiceImpl implements TaskService{
 	}
 
 	@Override
-	public Task getTask(Integer id) {
+	public Task getTask(Integer id) throws Exception {
 		return taskRepository.findById(id).get();
 	}
 
 	@Override
-	public Task addTask(Task task,Integer userId) {
+	public Task addTask(Task task,Integer userId) throws Exception{
 		
 		task.setUser(userService.getUser(userId));
 		task.setCreationDate(new Date());
@@ -54,8 +54,7 @@ public class TaskServiceImpl implements TaskService{
 	
 	//Persistence Exceptionları ayrı yakalamaya gerek var mı bak !
 	@Override
-	public Task updateTask(Task task,Integer taskId) {
-		try {
+	public Task updateTask(Task task,Integer taskId) throws Exception {
 			Task oldTask=taskRepository.findById(taskId).get();
 			//DTO'nun içinde id olmadığı için id set ediyoruz ki düzgün güncellesin
 			task.setTaskId(oldTask.getTaskId());
@@ -73,38 +72,18 @@ public class TaskServiceImpl implements TaskService{
 			}else {
 				return null;
 			}
-		}catch(PersistenceException e) {
-			logger.error( " Persistence error ocured " + e.getMessage());
-			return null;
-		}
-		catch(Exception e) {
-			logger.error(e.getMessage());
-			return null;
-		}
 	}
 
 	@Override
-	public int deleteTask(Integer id) {
-		try {
-			taskRepository.delete(taskRepository.findById(id).get());
-			return 1;
-		}catch(Exception e) {
-			logger.error(e.getMessage());
-			return 0;
-		}
+	public void deleteTask(Integer id) throws Exception{
+		taskRepository.delete(taskRepository.findById(id).get());
 	}
 
 	@Override
-	public int commentTask(Comment comment,Integer taskId) {
-		try {
-			Task task=taskRepository.findById(taskId).get();
-			comment.setSender(userService.findLoggedInUsername());
-			comment.setTask(task);
-			commentRepository.save(comment);
-			return 1;
-		}catch(PersistenceException e) {
-			logger.error(e.getMessage());
-			return 0;
-		}
+	public Comment commentTask(Comment comment,Integer taskId) throws Exception {
+		Task task = taskRepository.findById(taskId).get();
+		comment.setSender(userService.findLoggedInUsername());
+		comment.setTask(task);
+		return commentRepository.save(comment);
 	}
 }

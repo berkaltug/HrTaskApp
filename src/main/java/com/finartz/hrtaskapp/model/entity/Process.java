@@ -14,13 +14,13 @@ public class Process {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer processId;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "process")
     private List<Task> tasks=new LinkedList<>();
 
     @NotEmpty
     private String status;
 
-    @NotEmpty
+
     @Temporal(TemporalType.DATE)
     private Date creationDate;
 
@@ -29,6 +29,9 @@ public class Process {
 
     @Temporal(TemporalType.DATE)
     private Date closeDate;
+
+    public Process() {
+    }
 
     public Process(List<Task> tasks, @NotEmpty String status, @NotEmpty Date creationDate, Date updateDate, Date closeDate) {
         this.tasks = tasks;

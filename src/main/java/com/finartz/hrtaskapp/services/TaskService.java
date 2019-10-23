@@ -5,13 +5,10 @@ import com.finartz.hrtaskapp.model.entity.Task;
 
 public interface TaskService {
 	
-	Task getTask(Integer id);
-	
-	Task addTask(Task task, Integer userId);
-	
-	Task updateTask(Task task,Integer taskId);
+	Task getTask(Integer id) throws Exception;
+	Task addTask(Task task, Integer userId) throws Exception;
+	Task updateTask(Task task,Integer taskId) throws Exception;
+	void deleteTask(Integer id)throws Exception;
+	Comment commentTask(Comment comment,Integer taskId) throws Exception;
 
-	int deleteTask(Integer id);
-	
-	int commentTask(Comment comment,Integer taskId);
 }

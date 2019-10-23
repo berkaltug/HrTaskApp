@@ -31,7 +31,6 @@ public class Task implements Cloneable{
 	private Integer priority;
 
 	@Temporal(TemporalType.DATE)
-	@NotEmpty
 	private Date creationDate;
 
 	@Temporal(TemporalType.DATE)
@@ -47,23 +46,25 @@ public class Task implements Cloneable{
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;
-	
+
+	@ManyToOne
+	@JoinColumn(name="process_id")
+	private Process process;
 	
 	public Task() {
 	}
 
-	public Task(Integer taskId, @NotEmpty String title, @NotEmpty String body, String status, Integer priority,
-			List<Comment> comments, User user,Date creationDate,Date updateDate,Date closeDate) {
-		this.taskId = taskId;
+	public Task(@NotEmpty String title, @NotEmpty String body, String status, Integer priority, Date creationDate, Date updateDate, Date closeDate, List<Comment> comments, User user, Process process) {
 		this.title = title;
 		this.body = body;
 		this.status = status;
 		this.priority = priority;
+		this.creationDate = creationDate;
+		this.updateDate = updateDate;
+		this.closeDate = closeDate;
 		this.comments = comments;
 		this.user = user;
-		this.creationDate= creationDate;
-		this.updateDate=updateDate;
-		this.closeDate=closeDate;
+		this.process = process;
 	}
 
 	public Integer getTaskId() {
@@ -148,6 +149,14 @@ public class Task implements Cloneable{
 		this.closeDate = closeDate;
 	}
 
+	public Process getProcess() {
+		return process;
+	}
+
+	public void setProcess(Process process) {
+		this.process = process;
+	}
+
 	@Override
 	protected Object clone() throws CloneNotSupportedException{
 		return super.clone();
@@ -167,12 +176,13 @@ public class Task implements Cloneable{
 				Objects.equals(updateDate, task.updateDate) &&
 				Objects.equals(closeDate, task.closeDate) &&
 				Objects.equals(comments, task.comments) &&
-				Objects.equals(user, task.user);
+				Objects.equals(user, task.user) &&
+				Objects.equals(process, task.process);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(taskId, title, body, status, priority, creationDate, updateDate, closeDate, comments, user);
+		return Objects.hash(taskId, title, body, status, priority, creationDate, updateDate, closeDate, comments, user, process);
 	}
 
 	@Override
@@ -188,6 +198,8 @@ public class Task implements Cloneable{
 				", closeDate=" + closeDate +
 				", comments=" + comments +
 				", user=" + user +
+				", process=" + process +
 				'}';
 	}
+
 }
