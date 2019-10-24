@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class ProcessServiceImpl implements ProcessService {
@@ -21,33 +22,39 @@ public class ProcessServiceImpl implements ProcessService {
     private ProcessRepository processRepository;
     @Autowired
     private ModelMapper modelMapper;
+
     @Override
-    public Page<ProcessDto> getAllProcess(int page) throws Exception {
-        Pageable pageable= PageRequest.of(page,5, Sort.by("processId"));
-        return processRepository
+    public Optional<Page<ProcessDto>> getAllProcess(int pageNo) {
+        Pageable pageable = PageRequest.of(pageNo, 5, Sort.by("processId"));
+        Page<ProcessDto> page = processRepository
                 .findAll(pageable)
-                .map( process -> modelMapper.map( process ,ProcessDto.class));
+                .map(process -> modelMapper.map(process, ProcessDto.class));
+        return Optional.ofNullable(page);
     }
 
     @Override
-    public Process getProcess(Integer id) throws Exception {
-        return processRepository.findById(id).get();
+    public Optional<Process> getProcess(Integer id)  {
+        return processRepository.findById(id);
     }
 
     @Override
-    public Process addProcess(Process process) throws Exception{
+    public Optional<Process> addProcess(Process process) {
         process.setCreationDate(new Date());
-        return processRepository.save(process);
+        return Optional.ofNullable(processRepository.save(process));
     }
 
     @Override
-    public Process updateProcess(Process process) throws Exception {
+    public Optional<Process> updateProcess(Process process){
         process.setUpdateDate(new Date());
-        return processRepository.save(process);
+        return Optional.ofNullable(processRepository.save(process));
     }
 
     @Override
-    public void deleteProcess(Integer id) throws Exception {
-        processRepository.delete(processRepository.findById(id).get());
+    public Optional<Process> deleteProcess(Integer id)  {
+        Optional<Process> optionalProcess=processRepository.findById(id);
+        if(optionalProcess.isPresent()){
+            processRepository.delete(optionalProcess.get());
+        }
+        return Optional.empty();
     }
 }

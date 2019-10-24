@@ -3,6 +3,7 @@ package com.finartz.hrtaskapp.services.impl;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -54,8 +55,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User getUser(Integer id) throws Exception{
-			return userRepository.findById(id).get();
+	public Optional<User> getUser(Integer id){
+			return userRepository.findById(id);
 	}
 
 	@Override

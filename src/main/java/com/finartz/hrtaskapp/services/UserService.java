@@ -3,6 +3,7 @@ package com.finartz.hrtaskapp.services;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 
@@ -13,7 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 public interface UserService {
 	
 	Page<UserDto> getAllUsers(Integer page);
-	User getUser(Integer id) throws Exception;
+	Optional<User> getUser(Integer id);
 	User getUserByUsername(String username);
 	List<User> getUserByName(String name);
 	User addUser(User user);

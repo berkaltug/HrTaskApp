@@ -4,12 +4,14 @@ import com.finartz.hrtaskapp.model.dto.ProcessDto;
 import com.finartz.hrtaskapp.model.entity.Process;
 import org.springframework.data.domain.Page;
 
+import java.util.Optional;
+
 public interface ProcessService {
 
-    Page<ProcessDto> getAllProcess(int page) throws Exception;
-    Process getProcess(Integer id) throws Exception;
-    Process addProcess(Process process) throws Exception;
-    Process updateProcess(Process newProcess) throws Exception;
-    void deleteProcess(Integer id) throws Exception;
+    Optional<Page<ProcessDto>> getAllProcess(int page) ;
+    Optional<Process> getProcess(Integer id);
+    Optional<Process> addProcess(Process process);
+    Optional<Process> updateProcess(Process newProcess);
+    Optional<Process> deleteProcess(Integer id) ;
 
 }
