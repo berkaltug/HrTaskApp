@@ -16,11 +16,12 @@ public class TaskDto {
 	private Date closeDate;
 	private List<CommentDto> comments=new LinkedList<CommentDto>();
 	private Integer userId;
-	
+	private Integer processId;
+
 	public TaskDto() {
 	}
 
-	public TaskDto(String title, String body, String status, Integer priority, Date creationDate, Date updateDate, Date closeDate, List<CommentDto> comments, Integer userId) {
+	public TaskDto(String title, String body, String status, Integer priority, Date creationDate, Date updateDate, Date closeDate, List<CommentDto> comments, Integer userId, Integer processId) {
 		this.title = title;
 		this.body = body;
 		this.status = status;
@@ -30,6 +31,7 @@ public class TaskDto {
 		this.closeDate = closeDate;
 		this.comments = comments;
 		this.userId = userId;
+		this.processId = processId;
 	}
 
 	public String getTitle() {
@@ -104,6 +106,14 @@ public class TaskDto {
 		this.closeDate = closeDate;
 	}
 
+	public Integer getProcessId() {
+		return processId;
+	}
+
+	public void setProcessId(Integer processId) {
+		this.processId = processId;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -117,12 +127,13 @@ public class TaskDto {
 				Objects.equals(updateDate, taskDto.updateDate) &&
 				Objects.equals(closeDate, taskDto.closeDate) &&
 				Objects.equals(comments, taskDto.comments) &&
-				Objects.equals(userId, taskDto.userId);
+				Objects.equals(userId, taskDto.userId) &&
+				Objects.equals(processId, taskDto.processId);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(title, body, status, priority, creationDate, updateDate, closeDate, comments, userId);
+		return Objects.hash(title, body, status, priority, creationDate, updateDate, closeDate, comments, userId, processId);
 	}
 
 	@Override
@@ -137,6 +148,7 @@ public class TaskDto {
 				", closeDate=" + closeDate +
 				", comments=" + comments +
 				", userId=" + userId +
+				", processId=" + processId +
 				'}';
 	}
 }
