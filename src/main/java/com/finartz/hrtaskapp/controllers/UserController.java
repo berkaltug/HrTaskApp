@@ -1,6 +1,7 @@
 package com.finartz.hrtaskapp.controllers;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -25,10 +26,10 @@ import com.finartz.hrtaskapp.services.UserService;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-	Logger logger= LoggerFactory.getLogger(UserController.class);
+	Logger logger = LoggerFactory.getLogger(UserController.class);
 	private UserService userService;
 	private ModelMapper modelMapper;
-	
+
 	@Autowired
 	public UserController(UserService userService, ModelMapper modelMapper) {
 		this.userService = userService;
@@ -37,28 +38,27 @@ public class UserController {
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("/")
-	public Page<UserDto> getAllUser(@RequestParam("page") int page){
+	public Page<UserDto> getAllUser(@RequestParam("page") int page) {
 		return userService.getAllUsers(page);
-		
+
 	}
-	
+
 	@GetMapping("/{user_id}")
 	public ResponseEntity<?> getUser(@PathVariable("user_id") Integer userId) {
-		try {
-			return new ResponseEntity<>(modelMapper.map(userService.getUser(userId), UserDto.class),HttpStatus.OK);
-		}catch(Exception e){
-			logger.warn(e.getMessage());
-			return new ResponseEntity<>(e.getCause().getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+		Optional<User> user=userService.getUser(userId);
+		if(!user.isPresent()){
+			return new ResponseEntity<>(ResponseMessage.NOVALUE.get(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		return new ResponseEntity<>(modelMapper.map(user.get(),UserDto.class), HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/add")
 	public ResponseEntity<String> addUser(@RequestBody UserDto userDTO) {
 		try {
 			User user = userService.addUser(modelMapper.map(userDTO, User.class));
 			return new ResponseEntity<>(ResponseMessage.ADDED.get(), HttpStatus.CREATED);
-		}catch(Exception e){
-			return new ResponseEntity<>(ResponseMessage.ADDINGERROR.get(),HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (Exception e) {
+			return new ResponseEntity<>(ResponseMessage.ADDINGERROR.get(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -67,31 +67,34 @@ public class UserController {
 		try {
 			//Unnecessary sending pageable object ??
 			Pageable pageable = PageRequest.of(page, 5, Sort.by("priority"));
-			User user = userService.getUser(userId);
-			List<TaskDto> tasks = user
-					.getTasks(pageable)
-					.stream()
-					.map(task -> modelMapper.map(task, TaskDto.class))
-					.collect(Collectors.toList());
-			return new ResponseEntity<>(tasks, HttpStatus.OK);
+			Optional<User> user = userService.getUser(userId);
+			if (user.isPresent()) {
+				List<TaskDto> tasks = user.get()
+						.getTasks(pageable)
+						.stream()
+						.map(task -> modelMapper.map(task, TaskDto.class))
+						.collect(Collectors.toList());
+				return new ResponseEntity<>(tasks, HttpStatus.OK);
+			}
+			return new ResponseEntity<>(ResponseMessage.NOVALUE.get(),HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			logger.warn(e.getMessage());
 			return new ResponseEntity<>(e.getCause().getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	@GetMapping("/name/{name}")
-	public List<UserDto> getUsersLike(@PathVariable("name") String name){
+	public List<UserDto> getUsersLike(@PathVariable("name") String name) {
 
 		return userService.getUserByName(name)
 				.stream()
-				.map(user -> modelMapper.map( user , UserDto.class))
+				.map(user -> modelMapper.map(user, UserDto.class))
 				.collect(Collectors.toList());
-		
+
 	}
-	
+
 	@PostMapping("/login")
-	ResponseEntity<String> login(){
-		return new ResponseEntity<>(ResponseMessage.LOGGEDIN.get(),HttpStatus.ACCEPTED);
+	ResponseEntity<String> login() {
+		return new ResponseEntity<>(ResponseMessage.LOGGEDIN.get(), HttpStatus.ACCEPTED);
 	}
 }

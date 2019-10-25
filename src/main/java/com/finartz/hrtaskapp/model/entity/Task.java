@@ -8,7 +8,6 @@ import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 
 @Entity
@@ -49,12 +48,12 @@ public class Task implements Cloneable{
 
 	@ManyToOne
 	@JoinColumn(name="process_id")
-	private Process process;
+	private Process ownerProcess;
 	
 	public Task() {
 	}
 
-	public Task(@NotEmpty String title, @NotEmpty String body, String status, Integer priority, Date creationDate, Date updateDate, Date closeDate, List<Comment> comments, User user, Process process) {
+	public Task(@NotEmpty String title, @NotEmpty String body, String status, Integer priority, Date creationDate, Date updateDate, Date closeDate, List<Comment> comments, User user, Process ownerProcess) {
 		this.title = title;
 		this.body = body;
 		this.status = status;
@@ -64,7 +63,7 @@ public class Task implements Cloneable{
 		this.closeDate = closeDate;
 		this.comments = comments;
 		this.user = user;
-		this.process = process;
+		this.ownerProcess = ownerProcess;
 	}
 
 	public Integer getTaskId() {
@@ -149,12 +148,12 @@ public class Task implements Cloneable{
 		this.closeDate = closeDate;
 	}
 
-	public Process getProcess() {
-		return process;
+	public Process getOwnerProcess() {
+		return ownerProcess;
 	}
 
-	public void setProcess(Process process) {
-		this.process = process;
+	public void setOwnerProcess(Process ownerProcess) {
+		this.ownerProcess = ownerProcess;
 	}
 
 	@Override
@@ -177,12 +176,12 @@ public class Task implements Cloneable{
 				Objects.equals(closeDate, task.closeDate) &&
 				Objects.equals(comments, task.comments) &&
 				Objects.equals(user, task.user) &&
-				Objects.equals(process, task.process);
+				Objects.equals(ownerProcess, task.ownerProcess);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(taskId, title, body, status, priority, creationDate, updateDate, closeDate, comments, user, process);
+		return Objects.hash(taskId, title, body, status, priority, creationDate, updateDate, closeDate, comments, user, ownerProcess);
 	}
 
 	@Override
@@ -198,7 +197,7 @@ public class Task implements Cloneable{
 				", closeDate=" + closeDate +
 				", comments=" + comments +
 				", user=" + user +
-				", process=" + process +
+				", process=" + ownerProcess +
 				'}';
 	}
 

@@ -22,84 +22,67 @@ import com.finartz.hrtaskapp.model.entity.Comment;
 import com.finartz.hrtaskapp.model.entity.Task;
 import com.finartz.hrtaskapp.services.TaskService;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
-	private Logger logger= LoggerFactory.getLogger(TaskController.class);
+	private Logger logger = LoggerFactory.getLogger(TaskController.class);
 	private TaskService taskService;
 	private ModelMapper modelMapper;
-	
+
 	@Autowired
 	public TaskController(TaskService taskService, ModelMapper modelMapper) {
 		this.taskService = taskService;
 		this.modelMapper = modelMapper;
 	}
 
-	@GetMapping("{task_id}")
-	public ResponseEntity<?>  getTask(@PathVariable("task_id") Integer taskId) {
-		try {
-			return new ResponseEntity<>(modelMapper.map(taskService.getTask(taskId),TaskDto.class),HttpStatus.OK);
-		}catch (Exception e){
-			logger.warn(e.getMessage());
-			return new ResponseEntity<>(e.getCause().getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+	@GetMapping("/{task_id}")
+	public ResponseEntity<?> getTask(@PathVariable("task_id") Integer taskId) {
+		Optional<Task> optionalTask = taskService.getTask(taskId);
+		if (!optionalTask.isPresent()) {
+			return new ResponseEntity<>(ResponseMessage.NOVALUE.get(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		return new ResponseEntity<>(modelMapper.map(optionalTask.get(), TaskDto.class), HttpStatus.OK);
 	}
 
 	@PostMapping("/add")
 	public ResponseEntity<String> addTask(@RequestBody TaskDto taskDTO) {
-		Task task = modelMapper.map(taskDTO, Task.class);
-		try {
-			Task addedTask = taskService.addTask(task, taskDTO.getUserId());
-			if (addedTask != null) {
-				return new ResponseEntity<>(ResponseMessage.ADDED.get(), HttpStatus.CREATED);
-			} else {
-				return new ResponseEntity<>(ResponseMessage.ADDINGERROR.get(), HttpStatus.NOT_ACCEPTABLE);
-			}
-		} catch (Exception e) {
-			logger.warn(e.getMessage());
-			return new ResponseEntity<>(e.getCause().getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		Optional<Task> addedTask = taskService.addTask(modelMapper.map(taskDTO, Task.class), taskDTO.getUserId(), taskDTO.getOwnerProcessId());
+		if (!addedTask.isPresent()) {
+			return new ResponseEntity<>(ResponseMessage.ADDINGERROR.get(), HttpStatus.NOT_ACCEPTABLE);
 		}
+		return new ResponseEntity<>(ResponseMessage.ADDED.get(), HttpStatus.OK);
 	}
 
 
 	@PutMapping("/{task_id}/edit")
 	public ResponseEntity<String> updateTask(@PathVariable("task_id") Integer taskId, @RequestBody TaskDto newTask) {
-		try {
-			Task task = modelMapper.map(newTask, Task.class);
-			Task responseTask = taskService.updateTask(task, taskId);
-			if (responseTask != null) {
-				return new ResponseEntity<>(ResponseMessage.UPDATED.get(), HttpStatus.CREATED);
-			} else {
-				return new ResponseEntity<>(ResponseMessage.EDITERROR.get(), HttpStatus.FORBIDDEN);
-			}
-		} catch (Exception e) {
-			logger.warn(e.getMessage());
-			return new ResponseEntity<>(e.getCause().getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		//not the perfect way mapping creationDate
+		taskService.getTask(taskId).ifPresent(t->newTask.setCreationDate(t.getCreationDate()));
+		Optional<Task> responseTask = taskService.updateTask(modelMapper.map(newTask, Task.class), taskId);
+		if (!responseTask.isPresent()) {
+			return new ResponseEntity<>(ResponseMessage.EDITERROR.get(), HttpStatus.FORBIDDEN);
 		}
+		return new ResponseEntity<>(ResponseMessage.UPDATED.get(), HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/{task_id}/delete")
-	public ResponseEntity<String> deleteTask(@PathVariable("task_id") Integer taskId){
-		try {
-			taskService.deleteTask(taskId);
-			return new ResponseEntity<>(ResponseMessage.DELETED.get(),HttpStatus.OK);
-		}catch(Exception e){
-			logger.warn(e.getMessage());
-			return new ResponseEntity<>(ResponseMessage.DELETEERROR.get(),HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	public ResponseEntity<String> deleteTask(@PathVariable("task_id") Integer taskId) {
+		Optional<Task> deletedTask = taskService.deleteTask(taskId);
+		if (!deletedTask.isPresent())
+			return new ResponseEntity<>(ResponseMessage.DELETEERROR.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(ResponseMessage.DELETED.get(), HttpStatus.OK);
 
 	}
+
 
 	@PostMapping("/{task_id}/comment")
 	public ResponseEntity<String> commentTask(@PathVariable("task_id") Integer taskId, @RequestBody CommentDto commentDTO) {
-		try {
-			Comment comment = modelMapper.map(commentDTO, Comment.class);
-			taskService.commentTask(comment, taskId);
-			return  new ResponseEntity<>(ResponseMessage.ADDED.get(),HttpStatus.CREATED);
-		} catch (Exception e) {
-			logger.warn(e.getMessage());
+		Comment comment = modelMapper.map(commentDTO, Comment.class);
+		Optional<Comment> commentOptional = taskService.commentTask(comment, taskId);
+		if (!commentOptional.isPresent())
 			return new ResponseEntity<>(ResponseMessage.ADDINGERROR.get(), HttpStatus.NOT_ACCEPTABLE);
-		}
+		return new ResponseEntity<>(ResponseMessage.ADDED.get(), HttpStatus.CREATED);
 	}
-
 }

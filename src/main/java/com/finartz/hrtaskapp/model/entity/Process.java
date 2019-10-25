@@ -14,7 +14,7 @@ public class Process {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer processId;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "process")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "ownerProcess")
     private List<Task> tasks=new LinkedList<>();
 
     @NotEmpty

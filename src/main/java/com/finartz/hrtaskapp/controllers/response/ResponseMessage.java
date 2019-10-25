@@ -7,7 +7,8 @@ public enum ResponseMessage {
 	LOGGEDIN("Giriş Başarılı"),
 	EDITERROR("Güncelleme işleminde problem oluştu"),
 	ADDED("Başarıyla Eklendi"),
-	ADDINGERROR("Ekleme sırasında hata oluştu");
+	ADDINGERROR("Ekleme sırasında hata oluştu"),
+	NOVALUE("Aradığınız nesne bulunumadaı");
 	private String msg;
 	
 	ResponseMessage(String msg){

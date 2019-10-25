@@ -16,12 +16,12 @@ public class TaskDto {
 	private Date closeDate;
 	private List<CommentDto> comments=new LinkedList<CommentDto>();
 	private Integer userId;
-	private Integer processId;
+	private Integer ownerProcessId;
 
 	public TaskDto() {
 	}
 
-	public TaskDto(String title, String body, String status, Integer priority, Date creationDate, Date updateDate, Date closeDate, List<CommentDto> comments, Integer userId, Integer processId) {
+	public TaskDto(String title, String body, String status, Integer priority, Date creationDate, Date updateDate, Date closeDate, List<CommentDto> comments, Integer userId, Integer ownerProcessId) {
 		this.title = title;
 		this.body = body;
 		this.status = status;
@@ -31,7 +31,7 @@ public class TaskDto {
 		this.closeDate = closeDate;
 		this.comments = comments;
 		this.userId = userId;
-		this.processId = processId;
+		this.ownerProcessId = ownerProcessId;
 	}
 
 	public String getTitle() {
@@ -106,12 +106,12 @@ public class TaskDto {
 		this.closeDate = closeDate;
 	}
 
-	public Integer getProcessId() {
-		return processId;
+	public Integer getOwnerProcessId() {
+		return ownerProcessId;
 	}
 
-	public void setProcessId(Integer processId) {
-		this.processId = processId;
+	public void setOwnerProcessId(Integer ownerProcessId) {
+		this.ownerProcessId = ownerProcessId;
 	}
 
 	@Override
@@ -128,12 +128,12 @@ public class TaskDto {
 				Objects.equals(closeDate, taskDto.closeDate) &&
 				Objects.equals(comments, taskDto.comments) &&
 				Objects.equals(userId, taskDto.userId) &&
-				Objects.equals(processId, taskDto.processId);
+				Objects.equals(ownerProcessId, taskDto.ownerProcessId);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(title, body, status, priority, creationDate, updateDate, closeDate, comments, userId, processId);
+		return Objects.hash(title, body, status, priority, creationDate, updateDate, closeDate, comments, userId, ownerProcessId);
 	}
 
 	@Override
@@ -148,7 +148,7 @@ public class TaskDto {
 				", closeDate=" + closeDate +
 				", comments=" + comments +
 				", userId=" + userId +
-				", processId=" + processId +
+				", ownerProcessId=" + ownerProcessId +
 				'}';
 	}
 }

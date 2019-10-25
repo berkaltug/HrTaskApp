@@ -1,5 +1,7 @@
 package com.finartz.hrtaskapp.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;

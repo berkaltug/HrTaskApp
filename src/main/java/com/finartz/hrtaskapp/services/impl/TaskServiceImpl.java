@@ -44,7 +44,7 @@ public class TaskServiceImpl implements TaskService{
 	@Override
 	public Optional<Task> addTask(Task task, Integer userId,Integer processId){
 		userService.getUser(userId).ifPresent(task::setUser);
-		processRepository.findById(processId).ifPresent(task::setProcess);
+		processRepository.findById(processId).ifPresent(task::setOwnerProcess);
 		task.setCreationDate(new Date());
 		if(task.getUser()!=null) {
 			return Optional.ofNullable(taskRepository.save(task));

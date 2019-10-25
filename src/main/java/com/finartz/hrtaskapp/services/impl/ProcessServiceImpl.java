@@ -52,9 +52,7 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public Optional<Process> deleteProcess(Integer id)  {
         Optional<Process> optionalProcess=processRepository.findById(id);
-        if(optionalProcess.isPresent()){
-            processRepository.delete(optionalProcess.get());
-        }
-        return Optional.empty();
+        optionalProcess.ifPresent(process -> processRepository.delete(process));
+        return optionalProcess;
     }
 }
