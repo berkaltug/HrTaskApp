@@ -7,7 +7,7 @@ import java.util.Objects;
 public class FailReason {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer FailId;
+    private Integer failId;
 
     //unidirectional
     @OneToOne
@@ -21,11 +21,11 @@ public class FailReason {
     }
 
     public Integer getFailId() {
-        return FailId;
+        return failId;
     }
 
     public void setFailId(Integer failId) {
-        FailId = failId;
+        this.failId = failId;
     }
 
     public Metric getMetric() {
@@ -49,20 +49,20 @@ public class FailReason {
         if (this == o) return true;
         if (!(o instanceof FailReason)) return false;
         FailReason that = (FailReason) o;
-        return Objects.equals(FailId, that.FailId) &&
+        return Objects.equals(failId, that.failId) &&
                 Objects.equals(metric, that.metric) &&
                 Objects.equals(description, that.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(FailId, metric, description);
+        return Objects.hash(failId, metric, description);
     }
 
     @Override
     public String toString() {
         return "FailReason{" +
-                "FailId=" + FailId +
+                "FailId=" + failId +
                 ", metric=" + metric +
                 ", description='" + description + '\'' +
                 '}';

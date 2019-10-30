@@ -11,14 +11,15 @@ public class Metric {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer metricId;
 
-    @OneToMany(mappedBy = "metric")
-    private List<Task> task;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="task_id")
+    private Task task;
 
     private Date expectedDeadline;
 
     private Date realDeadline;
 
-    public Metric(List<Task> task, Date expectedDeadline, Date realDeadline) {
+    public Metric(Task task, Date expectedDeadline, Date realDeadline) {
         this.task = task;
         this.expectedDeadline = expectedDeadline;
         this.realDeadline = realDeadline;
@@ -32,11 +33,11 @@ public class Metric {
         this.metricId = metricId;
     }
 
-    public List<Task> getTask() {
+    public Task getTask() {
         return task;
     }
 
-    public void setTask(List<Task> task) {
+    public void setTask(Task task) {
         this.task = task;
     }
 

@@ -25,7 +25,7 @@ public class Task implements Cloneable{
 	private String body;
 
 	@NotNull
-	private String status; // statü nesnesi olarak değiştir.
+	private TaskStatus status; // statü nesnesi olarak değiştir.
 
 	@NotNull
 	private Integer priority;
@@ -37,11 +37,13 @@ public class Task implements Cloneable{
 	private Date updateDate;
 
 	@Temporal(TemporalType.DATE)
+	private Date expectedDeadline;
+
+	@Temporal(TemporalType.DATE)
 	private Date closeDate;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "task")
 	private List<Comment> comments = new LinkedList<Comment>();
-
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
@@ -51,20 +53,21 @@ public class Task implements Cloneable{
 	@JoinColumn(name = "process_id")
 	private Process ownerProcess;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Metric metric;
 
 
-	public Task() {
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 
-	public Task(@NotEmpty String title, @NotEmpty String body, String status, Integer priority, Date creationDate, Date updateDate, Date closeDate, List<Comment> comments, User user, Process ownerProcess) {
+	public Task(@NotEmpty String title, @NotEmpty String body, TaskStatus status, Integer priority, Date creationDate, Date updateDate, Date expectedDeadline, Date closeDate, List<Comment> comments, User user, Process ownerProcess) {
 		this.title = title;
 		this.body = body;
 		this.status = status;
 		this.priority = priority;
 		this.creationDate = creationDate;
 		this.updateDate = updateDate;
+		this.expectedDeadline = expectedDeadline;
 		this.closeDate = closeDate;
 		this.comments = comments;
 		this.user = user;
@@ -75,11 +78,9 @@ public class Task implements Cloneable{
 		return taskId;
 	}
 
-
 	public void setTaskId(Integer taskId) {
 		this.taskId = taskId;
 	}
-
 
 	public String getTitle() {
 		return title;
@@ -97,11 +98,11 @@ public class Task implements Cloneable{
 		this.body = body;
 	}
 
-	public String getStatus() {
+	public TaskStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(TaskStatus status) {
 		this.status = status;
 	}
 
@@ -111,22 +112,6 @@ public class Task implements Cloneable{
 
 	public void setPriority(Integer priority) {
 		this.priority = priority;
-	}
-
-	public List<Comment> getComments() {
-		return comments;
-	}
-
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public Date getCreationDate() {
@@ -145,12 +130,36 @@ public class Task implements Cloneable{
 		this.updateDate = updateDate;
 	}
 
+	public Date getExpectedDeadline() {
+		return expectedDeadline;
+	}
+
+	public void setExpectedDeadline(Date expectedDeadline) {
+		this.expectedDeadline = expectedDeadline;
+	}
+
 	public Date getCloseDate() {
 		return closeDate;
 	}
 
 	public void setCloseDate(Date closeDate) {
 		this.closeDate = closeDate;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Process getOwnerProcess() {
@@ -162,11 +171,6 @@ public class Task implements Cloneable{
 	}
 
 	@Override
-	protected Object clone() throws CloneNotSupportedException {
-		return super.clone();
-	}
-
-	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof Task)) return false;
@@ -174,10 +178,11 @@ public class Task implements Cloneable{
 		return Objects.equals(taskId, task.taskId) &&
 				Objects.equals(title, task.title) &&
 				Objects.equals(body, task.body) &&
-				Objects.equals(status, task.status) &&
+				status == task.status &&
 				Objects.equals(priority, task.priority) &&
 				Objects.equals(creationDate, task.creationDate) &&
 				Objects.equals(updateDate, task.updateDate) &&
+				Objects.equals(expectedDeadline, task.expectedDeadline) &&
 				Objects.equals(closeDate, task.closeDate) &&
 				Objects.equals(comments, task.comments) &&
 				Objects.equals(user, task.user) &&
@@ -186,7 +191,7 @@ public class Task implements Cloneable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(taskId, title, body, status, priority, creationDate, updateDate, closeDate, comments, user, ownerProcess);
+		return Objects.hash(taskId, title, body, status, priority, creationDate, updateDate, expectedDeadline, closeDate, comments, user, ownerProcess);
 	}
 
 	@Override
@@ -195,15 +200,15 @@ public class Task implements Cloneable{
 				"taskId=" + taskId +
 				", title='" + title + '\'' +
 				", body='" + body + '\'' +
-				", status='" + status + '\'' +
+				", status=" + status +
 				", priority=" + priority +
 				", creationDate=" + creationDate +
 				", updateDate=" + updateDate +
+				", expectedDeadline=" + expectedDeadline +
 				", closeDate=" + closeDate +
 				", comments=" + comments +
 				", user=" + user +
-				", process=" + ownerProcess +
+				", ownerProcess=" + ownerProcess +
 				'}';
 	}
-
 }

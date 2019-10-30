@@ -62,7 +62,7 @@ public class TaskServiceImpl implements TaskService{
 				task.setTaskId(optionalTask.get().getTaskId());
 				task.setUpdateDate(new Date());
 				//done yapıldıysa kapama tarihi ata
-				if (task.getStatus() == TaskStatus.DONE.get())
+				if (task.getStatus() == TaskStatus.DONE)
 					task.setCloseDate(new Date());
 				//kendi taskını mı güncelliyor ?
 				if (userService.findLoggedInUsername().equals(task.getUser().getUsername()) || userService.isAdmin())
