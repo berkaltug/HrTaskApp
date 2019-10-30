@@ -46,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/users/**","/tasks/**")
 		.and()
 		.authorizeRequests()
-		.antMatchers("/sign-up").permitAll() // unused mapping
+		.antMatchers("/sign-up","/h2-console").permitAll() // unused mapping
 		.antMatchers("/users/add").hasRole("ADMIN")
 		.antMatchers("/users/**").hasAnyRole("ADMIN","USER")
 		.antMatchers("/tasks/add").hasRole("ADMIN")

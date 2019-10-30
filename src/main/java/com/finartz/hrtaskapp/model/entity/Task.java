@@ -8,24 +8,25 @@ import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
+import com.finartz.hrtaskapp.model.TaskStatus;
 import com.sun.istack.NotNull;
 
 @Entity
 public class Task implements Cloneable{
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer taskId;
-	
+
 	@NotEmpty
 	private String title;
-	
+
 	@NotEmpty
 	private String body;
-	
+
 	@NotNull
 	private String status; // statü nesnesi olarak değiştir.
-	
+
 	@NotNull
 	private Integer priority;
 
@@ -38,18 +39,22 @@ public class Task implements Cloneable{
 	@Temporal(TemporalType.DATE)
 	private Date closeDate;
 
-	@OneToMany(cascade=CascadeType.ALL,mappedBy="task")
-	private List<Comment> comments=new LinkedList<Comment>();
-	
-	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "task")
+	private List<Comment> comments = new LinkedList<Comment>();
+
+
 	@ManyToOne
-	@JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	@ManyToOne
-	@JoinColumn(name="process_id")
+	@JoinColumn(name = "process_id")
 	private Process ownerProcess;
-	
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Metric metric;
+
+
 	public Task() {
 	}
 
@@ -114,8 +119,8 @@ public class Task implements Cloneable{
 
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
-	}	
-	
+	}
+
 	public User getUser() {
 		return user;
 	}
@@ -157,7 +162,7 @@ public class Task implements Cloneable{
 	}
 
 	@Override
-	protected Object clone() throws CloneNotSupportedException{
+	protected Object clone() throws CloneNotSupportedException {
 		return super.clone();
 	}
 
