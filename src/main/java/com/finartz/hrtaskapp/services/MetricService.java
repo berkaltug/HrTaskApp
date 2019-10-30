@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface MetricService {
 
-    Page<Metric> getAllMetrics(int page);
+    Optional<Page<Metric>> getAllMetrics(int page);
     Optional<Metric> getMetric(Integer id);
     Optional<Metric> deleteMetric(Integer id);
     Optional<Metric> updateMetric(Metric metric);

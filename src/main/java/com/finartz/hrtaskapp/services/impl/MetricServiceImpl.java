@@ -5,6 +5,7 @@ import com.finartz.hrtaskapp.model.entity.FailReason;
 import com.finartz.hrtaskapp.model.entity.Metric;
 import com.finartz.hrtaskapp.services.FailReasonService;
 import com.finartz.hrtaskapp.services.MetricService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,19 +16,21 @@ import java.util.Optional;
 
 @Service
 public class MetricServiceImpl implements MetricService {
+
     private MetricRepository metricRepository;
     private FailReasonService failReasonService;
 
+
+    @Autowired
     public MetricServiceImpl(MetricRepository metricRepository, FailReasonService failReasonService) {
         this.metricRepository = metricRepository;
         this.failReasonService = failReasonService;
     }
 
-
     @Override
-    public Page<Metric> getAllMetrics(int page) {
+    public Optional<Page<Metric>> getAllMetrics(int page) {
         Pageable pageable= PageRequest.of(page,5, Sort.by("metricId"));
-        return metricRepository.findAll(pageable);
+        return Optional.ofNullable(metricRepository.findAll(pageable));
     }
 
     @Override
