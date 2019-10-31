@@ -1,5 +1,5 @@
-insert into role(role_id,role) values (1,'ROLE_ADMIN');
-insert into role(role_id,role) values (2,'ROLE_USER');
+insert into role(role_id,role_name) values (1,'ROLE_ADMIN');
+insert into role(role_id,role_name) values (2,'ROLE_USER');
 
 insert into user_table(user_id,name,username,password,email,surname) values (-1,'berk','admin','$2a$10$06H.QM0KXUeRrzP9bIl5wuW5HAUvVHBWVuVjqQ0rux1J5AR9lpOf6','berkaltug96@gmail.com','altug');
 
