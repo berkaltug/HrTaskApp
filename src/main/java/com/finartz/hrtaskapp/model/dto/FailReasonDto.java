@@ -1,16 +1,19 @@
 package com.finartz.hrtaskapp.model.dto;
 
-import com.finartz.hrtaskapp.model.entity.FailReason;
+import java.util.Objects;
 
 public class FailReasonDto {
 
     private Integer failId;
-    private MetricDto metricDto;
+    private MetricDto metric;
     private String description;
 
-    public FailReasonDto(Integer failId, MetricDto metricDto, String description) {
+    public FailReasonDto() {
+    }
+
+    public FailReasonDto(Integer failId, MetricDto metric, String description) {
         this.failId = failId;
-        this.metricDto = metricDto;
+        this.metric = metric;
         this.description = description;
     }
 
@@ -22,12 +25,12 @@ public class FailReasonDto {
         this.failId = failId;
     }
 
-    public MetricDto getMetricDto() {
-        return metricDto;
+    public MetricDto getMetric() {
+        return metric;
     }
 
-    public void setMetricDto(MetricDto metricDto) {
-        this.metricDto = metricDto;
+    public void setMetric(MetricDto metric) {
+        this.metric = metric;
     }
 
     public String getDescription() {
@@ -36,5 +39,29 @@ public class FailReasonDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FailReasonDto)) return false;
+        FailReasonDto that = (FailReasonDto) o;
+        return Objects.equals(failId, that.failId) &&
+                Objects.equals(metric, that.metric) &&
+                Objects.equals(description, that.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(failId, metric, description);
+    }
+
+    @Override
+    public String toString() {
+        return "FailReasonDto{" +
+                "failId=" + failId +
+                ", metric=" + metric +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name="user_table")
 public class User {
 
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer userId;
@@ -41,7 +40,7 @@ public class User {
 	
 	@NotEmpty
 	private String surname;
-	
+
 	@OneToMany(cascade=CascadeType.ALL,mappedBy="user")
 	private List<Task> tasks=new ArrayList<>();
 	

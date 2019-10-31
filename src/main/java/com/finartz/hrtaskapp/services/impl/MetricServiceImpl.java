@@ -42,6 +42,7 @@ public class MetricServiceImpl implements MetricService {
     public Optional<Metric> deleteMetric(Integer id) {
         Optional<Metric> optional=metricRepository.findById(id);
         optional.ifPresent(opt->metricRepository.delete(opt));
+
         return optional;
     }
 

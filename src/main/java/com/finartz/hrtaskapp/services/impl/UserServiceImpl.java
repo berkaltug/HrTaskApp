@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService{
 		Pageable pageable=PageRequest.of(pageNo, 10, Sort.by("name"));
 		return userRepository
 				.findAll(pageable)
-				.map(page-> modelMapper.map(page, UserDto.class));
+				.map(user-> modelMapper.map(user, UserDto.class));
 	}
 
 	@Override

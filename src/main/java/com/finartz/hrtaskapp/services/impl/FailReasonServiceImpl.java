@@ -1,7 +1,6 @@
 package com.finartz.hrtaskapp.services.impl;
 
 import com.finartz.hrtaskapp.db.repository.FailReasonRepository;
-import com.finartz.hrtaskapp.db.repository.MetricRepository;
 import com.finartz.hrtaskapp.model.entity.FailReason;
 import com.finartz.hrtaskapp.services.FailReasonService;
 import org.springframework.data.domain.Page;
@@ -22,9 +21,9 @@ public class FailReasonServiceImpl implements FailReasonService {
     }
 
     @Override
-    public Page<FailReason> getAllFails(int page) {
+    public Optional<Page<FailReason>> getAllFails(int page) {
         Pageable pageable= PageRequest.of(page,5, Sort.by("failId"));
-        return failReasonRepository.findAll(pageable);
+        return Optional.of(failReasonRepository.findAll(pageable));
     }
 
     @Override
