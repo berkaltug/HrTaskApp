@@ -10,10 +10,13 @@ public class FailReason {
     private Integer failId;
 
     //unidirectional
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL)
     private Metric metric;
 
     private String description;
+
+    public FailReason() {
+    }
 
     public FailReason(Metric metric, String description) {
         this.metric = metric;

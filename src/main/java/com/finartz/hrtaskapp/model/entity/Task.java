@@ -60,6 +60,9 @@ public class Task implements Cloneable{
 		return super.clone();
 	}
 
+	public Task() {
+	}
+
 	public Task(@NotEmpty String title, @NotEmpty String body, TaskStatus status, Integer priority, Date creationDate, Date updateDate, Date expectedDeadline, Date closeDate, List<Comment> comments, User user, Process ownerProcess) {
 		this.title = title;
 		this.body = body;

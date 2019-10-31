@@ -3,17 +3,21 @@ package com.finartz.hrtaskapp.model.dto;
 import com.finartz.hrtaskapp.model.entity.Task;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class MetricDto {
 
     private Integer metricId;
-    private TaskDto taskDto;
+    private String taskTitle;
     private Date expectedDeadline;
     private Date realDeadline;
 
-    public MetricDto(Integer metricId, TaskDto taskDto, Date expectedDeadline, Date realDeadline) {
+    public MetricDto() {
+    }
+
+    public MetricDto(Integer metricId, String taskTitle, Date expectedDeadline, Date realDeadline) {
         this.metricId = metricId;
-        this.taskDto = taskDto;
+        this.taskTitle = taskTitle;
         this.expectedDeadline = expectedDeadline;
         this.realDeadline = realDeadline;
     }
@@ -26,12 +30,12 @@ public class MetricDto {
         this.metricId = metricId;
     }
 
-    public TaskDto getTaskDto() {
-        return taskDto;
+    public String getTaskTitle() {
+        return taskTitle;
     }
 
-    public void setTaskDto(TaskDto taskDto) {
-        this.taskDto = taskDto;
+    public void setTaskTitle(String taskTitle) {
+        this.taskTitle = taskTitle;
     }
 
     public Date getExpectedDeadline() {
@@ -48,5 +52,31 @@ public class MetricDto {
 
     public void setRealDeadline(Date realDeadline) {
         this.realDeadline = realDeadline;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MetricDto)) return false;
+        MetricDto metricDto = (MetricDto) o;
+        return Objects.equals(metricId, metricDto.metricId) &&
+                Objects.equals(taskTitle, metricDto.taskTitle) &&
+                Objects.equals(expectedDeadline, metricDto.expectedDeadline) &&
+                Objects.equals(realDeadline, metricDto.realDeadline);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(metricId, taskTitle, expectedDeadline, realDeadline);
+    }
+
+    @Override
+    public String toString() {
+        return "MetricDto{" +
+                "metricId=" + metricId +
+                ", taskTitle='" + taskTitle + '\'' +
+                ", expectedDeadline=" + expectedDeadline +
+                ", realDeadline=" + realDeadline +
+                '}';
     }
 }

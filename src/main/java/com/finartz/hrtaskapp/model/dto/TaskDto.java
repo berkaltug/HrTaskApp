@@ -14,6 +14,7 @@ public class TaskDto {
 	private Date creationDate;
 	private Date updateDate;
 	private Date closeDate;
+	private Date expectedDeadline;
 	private List<CommentDto> comments=new LinkedList<CommentDto>();
 	private Integer userId;
 	private Integer ownerProcessId;
@@ -21,7 +22,7 @@ public class TaskDto {
 	public TaskDto() {
 	}
 
-	public TaskDto(String title, String body, String status, Integer priority, Date creationDate, Date updateDate, Date closeDate, List<CommentDto> comments, Integer userId, Integer ownerProcessId) {
+	public TaskDto(String title, String body, String status, Integer priority, Date creationDate, Date updateDate, Date closeDate, Date expectedDeadline, List<CommentDto> comments, Integer userId, Integer ownerProcessId) {
 		this.title = title;
 		this.body = body;
 		this.status = status;
@@ -29,6 +30,7 @@ public class TaskDto {
 		this.creationDate = creationDate;
 		this.updateDate = updateDate;
 		this.closeDate = closeDate;
+		this.expectedDeadline = expectedDeadline;
 		this.comments = comments;
 		this.userId = userId;
 		this.ownerProcessId = ownerProcessId;
@@ -114,6 +116,14 @@ public class TaskDto {
 		this.ownerProcessId = ownerProcessId;
 	}
 
+	public Date getExpectedDeadline() {
+		return expectedDeadline;
+	}
+
+	public void setExpectedDeadline(Date expectedDeadline) {
+		this.expectedDeadline = expectedDeadline;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -126,6 +136,7 @@ public class TaskDto {
 				Objects.equals(creationDate, taskDto.creationDate) &&
 				Objects.equals(updateDate, taskDto.updateDate) &&
 				Objects.equals(closeDate, taskDto.closeDate) &&
+				Objects.equals(expectedDeadline, taskDto.expectedDeadline) &&
 				Objects.equals(comments, taskDto.comments) &&
 				Objects.equals(userId, taskDto.userId) &&
 				Objects.equals(ownerProcessId, taskDto.ownerProcessId);
@@ -133,7 +144,7 @@ public class TaskDto {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(title, body, status, priority, creationDate, updateDate, closeDate, comments, userId, ownerProcessId);
+		return Objects.hash(title, body, status, priority, creationDate, updateDate, closeDate, expectedDeadline, comments, userId, ownerProcessId);
 	}
 
 	@Override
@@ -146,6 +157,7 @@ public class TaskDto {
 				", creationDate=" + creationDate +
 				", updateDate=" + updateDate +
 				", closeDate=" + closeDate +
+				", expectedDeadline=" + expectedDeadline +
 				", comments=" + comments +
 				", userId=" + userId +
 				", ownerProcessId=" + ownerProcessId +

@@ -11,18 +11,35 @@ public class Metric {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer metricId;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="task_id")
-    private Task task;
+    private String taskTitle;
 
     private Date expectedDeadline;
 
     private Date realDeadline;
 
-    public Metric(Task task, Date expectedDeadline, Date realDeadline) {
-        this.task = task;
+    public Metric() {
+    }
+
+    public Metric(String taskTitle, Date expectedDeadline, Date realDeadline) {
+        this.taskTitle = taskTitle;
         this.expectedDeadline = expectedDeadline;
         this.realDeadline = realDeadline;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Metric)) return false;
+        Metric metric = (Metric) o;
+        return Objects.equals(metricId, metric.metricId) &&
+                Objects.equals(taskTitle, metric.taskTitle) &&
+                Objects.equals(expectedDeadline, metric.expectedDeadline) &&
+                Objects.equals(realDeadline, metric.realDeadline);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(metricId, taskTitle, expectedDeadline, realDeadline);
     }
 
     public Integer getMetricId() {
@@ -33,12 +50,12 @@ public class Metric {
         this.metricId = metricId;
     }
 
-    public Task getTask() {
-        return task;
+    public String getTaskTitle() {
+        return taskTitle;
     }
 
-    public void setTask(Task task) {
-        this.task = task;
+    public void setTaskTitle(String taskTitle) {
+        this.taskTitle = taskTitle;
     }
 
     public Date getExpectedDeadline() {
@@ -58,26 +75,10 @@ public class Metric {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Metric)) return false;
-        Metric metric = (Metric) o;
-        return Objects.equals(metricId, metric.metricId) &&
-                Objects.equals(task, metric.task) &&
-                Objects.equals(expectedDeadline, metric.expectedDeadline) &&
-                Objects.equals(realDeadline, metric.realDeadline);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(metricId, task, expectedDeadline, realDeadline);
-    }
-
-    @Override
     public String toString() {
         return "Metric{" +
-                "id=" + metricId +
-                ", task=" + task +
+                "metricId=" + metricId +
+                ", taskTitle='" + taskTitle + '\'' +
                 ", expectedDeadline=" + expectedDeadline +
                 ", realDeadline=" + realDeadline +
                 '}';

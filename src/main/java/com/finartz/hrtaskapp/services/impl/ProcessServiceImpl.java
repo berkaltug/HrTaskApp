@@ -7,6 +7,7 @@ import com.finartz.hrtaskapp.model.entity.Metric;
 import com.finartz.hrtaskapp.model.entity.Process;
 import com.finartz.hrtaskapp.services.MetricService;
 import com.finartz.hrtaskapp.services.ProcessService;
+import com.finartz.hrtaskapp.services.TaskService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,8 @@ public class ProcessServiceImpl implements ProcessService {
     private ModelMapper modelMapper;
     @Autowired
     private MetricService metricService;
+    @Autowired
+    private TaskService taskService;
 
     @Override
     public Optional<Page<ProcessDto>> getAllProcess(int pageNo) {
@@ -58,16 +61,21 @@ public class ProcessServiceImpl implements ProcessService {
     public Optional<Process> deleteProcess(Integer id)  {
         Optional<Process> optionalProcess=processRepository.findById(id);
         if(optionalProcess.isPresent()){
+            System.err.println("process bulundu");
             //varsa tasklarının durumunu kontrol et
             if(optionalProcess.get().getTasks().stream().anyMatch(task -> task.getStatus() != TaskStatus.DONE)){
+                System.err.println("process taskları done değil");
                 return Optional.empty();
             }
             else{
                 optionalProcess.get().getTasks().forEach(task->{
-                    Metric metric=new Metric(task,task.getExpectedDeadline(),task.getCloseDate());
+                    Metric metric=new Metric(task.getTitle(),task.getExpectedDeadline(),task.getCloseDate());
                     metricService.addMetric(metric);
+                    taskService.deleteTask(task.getTaskId());
+                    System.err.println("process taskları metric ekleme kısmında");
                 });
                 processRepository.delete(optionalProcess.get());
+                return optionalProcess;
             }
         }
         return Optional.empty();

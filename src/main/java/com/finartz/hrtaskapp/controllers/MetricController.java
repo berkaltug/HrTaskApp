@@ -28,7 +28,7 @@ public class MetricController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/{page}")
+    @GetMapping("/")
     public ResponseEntity<?> getAllMetrics(@RequestParam("page") int page) {
         Optional<Page<MetricDto>> optionalMetrics;
         optionalMetrics = metricService.getAllMetrics(page).map(p->p.map(metric->modelMapper.map(metric,MetricDto.class)));

@@ -73,9 +73,9 @@ public class TaskServiceImpl implements TaskService{
 
 	@Override
 	public Optional<Task> deleteTask(Integer id){
-		Optional<Task> optionalProcess=taskRepository.findById(id);
-		optionalProcess.ifPresent(t->taskRepository.delete(t));
-		return optionalProcess;
+		Optional<Task> optionalTask=taskRepository.findById(id);
+		optionalTask.ifPresent(t->taskRepository.delete(t));
+		return optionalTask;
 	}
 
 	@Override
