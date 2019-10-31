@@ -7,12 +7,13 @@ import java.util.Objects;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.finartz.hrtaskapp.model.TaskStatus;
-import com.sun.istack.NotNull;
+
 
 @Entity
-public class Task implements Cloneable{
+public class Task{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -43,7 +44,7 @@ public class Task implements Cloneable{
 	private Date closeDate;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "task")
-	private List<Comment> comments = new LinkedList<Comment>();
+	private List<Comment> comments = new LinkedList<>();
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
@@ -52,13 +53,6 @@ public class Task implements Cloneable{
 	@ManyToOne
 	@JoinColumn(name = "process_id")
 	private Process ownerProcess;
-
-
-
-	@Override
-	protected Object clone() throws CloneNotSupportedException {
-		return super.clone();
-	}
 
 	public Task() {
 	}

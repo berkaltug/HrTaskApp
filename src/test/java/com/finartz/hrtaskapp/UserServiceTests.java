@@ -19,36 +19,9 @@ import com.finartz.hrtaskapp.services.UserService;
 
 @SpringBootTest
 class UserServiceTests {
-	
-	@Autowired
-	UserService userService;
-	
+
 	@Test
 	void contextLoads() {
 	}
-	
-//	@Test
-//	@Order(2)
-//	void isLoadAllUser() {
-//		Pageable pageable = PageRequest.of(0,10,Sort.by("name"));
-//		Assert.notNull(userService.getAllUsers(pageable));
-//	}
-	
-	@Test
-	@Order(1)
-	void couldInsertUser() {
-		List<Task> tasks = new ArrayList<Task>();
-		List<Role> roles = new ArrayList<Role>();
-		
-		for(int i=0 ; i < 20 ; i++ ) {
-			User u = new User("berk","altug","berkaltug", "asdsd", "berk@gmail.com", tasks,roles);
-		}
-		
-	}
-	
-	@Test
-	@Order(3)
-	void couldGetUser() {
-		Assert.notNull(userService.getUser(1));
-	}
+
 }

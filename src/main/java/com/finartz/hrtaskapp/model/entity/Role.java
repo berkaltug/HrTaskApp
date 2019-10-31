@@ -14,14 +14,14 @@ public class Role {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer roleId;
 	@NotEmpty
-	private String role;
+	private String roleName;
 	
 	public Role() {
 	}
 
-	public Role(Integer id, @NotEmpty String role) {
+	public Role(Integer id, @NotEmpty String roleName) {
 		this.roleId = id;
-		this.role = role;
+		this.roleName = roleName;
 	}
 
 	public Integer getId() {
@@ -32,17 +32,17 @@ public class Role {
 		this.roleId = id;
 	}
 
-	public String getRole() {
-		return role;
+	public String getRoleName() {
+		return roleName;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 
 	@Override
 	public String toString() {
-		return "Role [id=" + roleId + ", role=" + role + "]";
+		return "Role [id=" + roleId + ", role=" + roleName + "]";
 	}
 
 	@Override
@@ -51,11 +51,11 @@ public class Role {
 		if (!(o instanceof Role)) return false;
 		Role role1 = (Role) o;
 		return Objects.equals(roleId, role1.roleId) &&
-				Objects.equals(role, role1.role);
+				Objects.equals(roleName, role1.roleName);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(roleId, role);
+		return Objects.hash(roleId, roleName);
 	}
 }

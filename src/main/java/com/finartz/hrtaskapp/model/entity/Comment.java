@@ -31,7 +31,7 @@ public class Comment {
 	public Comment() {
 	}
 
-	public Comment(Integer commentId, String message, String sender, Task task) {
+	public Comment(Integer commentId, String message, String senderUsername, Task task) {
 		this.commentId = commentId;
 		this.message = message;
 		this.senderUsername = senderUsername;
@@ -72,7 +72,12 @@ public class Comment {
 
 	@Override
 	public String toString() {
-		return "Comments [commentId=" + commentId + ", message=" + message + "]";
+		return "Comment{" +
+				"commentId=" + commentId +
+				", message='" + message + '\'' +
+				", senderUsername='" + senderUsername + '\'' +
+				", task=" + task +
+				'}';
 	}
 
 	@Override

@@ -16,7 +16,7 @@ public class UserDto {
 	private String password;
 	private String username;
 	private String email;
-	private List<TaskDto> tasks=new ArrayList<TaskDto>();
+	private List<TaskDto> tasks=new ArrayList<>();
 	
 	public UserDto() {
 	}

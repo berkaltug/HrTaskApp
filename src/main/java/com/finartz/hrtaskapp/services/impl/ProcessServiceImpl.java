@@ -61,10 +61,8 @@ public class ProcessServiceImpl implements ProcessService {
     public Optional<Process> deleteProcess(Integer id)  {
         Optional<Process> optionalProcess=processRepository.findById(id);
         if(optionalProcess.isPresent()){
-            System.err.println("process bulundu");
             //varsa tasklarının durumunu kontrol et
             if(optionalProcess.get().getTasks().stream().anyMatch(task -> task.getStatus() != TaskStatus.DONE)){
-                System.err.println("process taskları done değil");
                 return Optional.empty();
             }
             else{
@@ -72,7 +70,6 @@ public class ProcessServiceImpl implements ProcessService {
                     Metric metric=new Metric(task.getTitle(),task.getExpectedDeadline(),task.getCloseDate());
                     metricService.addMetric(metric);
                     taskService.deleteTask(task.getTaskId());
-                    System.err.println("process taskları metric ekleme kısmında");
                 });
                 processRepository.delete(optionalProcess.get());
                 return optionalProcess;

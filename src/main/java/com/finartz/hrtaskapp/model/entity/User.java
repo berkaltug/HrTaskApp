@@ -134,13 +134,10 @@ public class User {
 		//ordering by priority 
 		tasks.sort(Comparator.comparing(Task::getPriority).reversed());
 		//filtering related tasks
-		List<Task> pagedTasks =
-				tasks
+		return	tasks
 				.stream()
 				.filter( task -> tasks.indexOf(task)+1 >= pageMin && tasks.indexOf(task)+1 <= pageMax )
 				.collect(Collectors.toList());
-		
-		return pagedTasks;
 	}
 
 	@Override

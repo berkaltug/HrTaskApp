@@ -15,7 +15,7 @@ public class TaskDto {
 	private Date updateDate;
 	private Date closeDate;
 	private Date expectedDeadline;
-	private List<CommentDto> comments=new LinkedList<CommentDto>();
+	private List<CommentDto> comments=new LinkedList<>();
 	private Integer userId;
 	private Integer ownerProcessId;
 

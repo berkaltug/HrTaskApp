@@ -2,6 +2,7 @@ package com.finartz.hrtaskapp.services;
 
 import java.util.Collection;
 
+import com.finartz.hrtaskapp.model.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -45,7 +46,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     {
         String[] userRoles =user.getRoles()
         					.stream()
-        					.map(role->role.getRole())
+        					.map(Role::getRoleName)
         					.toArray(String[]::new);
         return AuthorityUtils.createAuthorityList(userRoles);
     }

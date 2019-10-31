@@ -23,7 +23,7 @@ import java.io.IOException;
 @Profile("jwt")
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    Logger logger= LoggerFactory.getLogger(JwtRequestFilter.class);
+    private Logger filterLogger = LoggerFactory.getLogger(JwtRequestFilter.class);
 
     @Autowired
     private UserDetailsService customUserDetailsService;
@@ -46,12 +46,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
-                System.out.println("Unable to get JWT Token");
+                filterLogger.warn("Unable to get JWT Token");
             } catch (ExpiredJwtException e) {
-                System.out.println("JWT Token has expired");
+                filterLogger.warn("JWT Token has expired");
             }
         } else {
-            logger.warn("JWT Token does not begin with Bearer String");
+            filterLogger.warn("JWT Token does not begin with Bearer String");
         }
 
 // Once we get the token validate it.

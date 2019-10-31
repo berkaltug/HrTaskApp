@@ -27,7 +27,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
-	private Logger logger = LoggerFactory.getLogger(TaskController.class);
 	private TaskService taskService;
 	private ModelMapper modelMapper;
 

@@ -55,7 +55,7 @@ public class UserController {
 	@PostMapping("/add")
 	public ResponseEntity<String> addUser(@RequestBody UserDto userDTO) {
 		try {
-			User user = userService.addUser(modelMapper.map(userDTO, User.class));
+			userService.addUser(modelMapper.map(userDTO, User.class));
 			return new ResponseEntity<>(ResponseMessage.ADDED.get(), HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(ResponseMessage.ADDINGERROR.get(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -94,7 +94,7 @@ public class UserController {
 	}
 
 	@PostMapping("/login")
-	ResponseEntity<String> login() {
+	public ResponseEntity<String> login() {
 		return new ResponseEntity<>(ResponseMessage.LOGGEDIN.get(), HttpStatus.ACCEPTED);
 	}
 }
