@@ -23,14 +23,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Profile("jwt")
 public class JwtWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private AuthenticationEntryPoint jwtAuthenticationEntrypoint;
-
-    @Autowired
     private UserDetailsService customUserDetailsService;
+    private JwtRequestFilter jwtRequestFilter;
 
     @Autowired
-    private JwtRequestFilter jwtRequestFilter;
+    public JwtWebSecurityConfig(AuthenticationEntryPoint jwtAuthenticationEntrypoint, UserDetailsService customUserDetailsService, JwtRequestFilter jwtRequestFilter) {
+        this.jwtAuthenticationEntrypoint = jwtAuthenticationEntrypoint;
+        this.customUserDetailsService = customUserDetailsService;
+        this.jwtRequestFilter = jwtRequestFilter;
+    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -53,14 +55,18 @@ public class JwtWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.requestMatchers()
-                .antMatchers("/users/**","/tasks/**")
+                .antMatchers("/users/**","/tasks/**","/process/**","/metrics/**","/fail/**")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/authenticate").permitAll()
+                .antMatchers("/authenticate","/h2-console/**").permitAll()
                 .antMatchers("/users/add").hasRole("ADMIN")
                 .antMatchers("/users/**").hasAnyRole("ADMIN","USER")
                 .antMatchers("/tasks/add").hasRole("ADMIN")
                 .antMatchers("/tasks/**").hasRole("USER")
+                .antMatchers("/process/add","/process/update/**","/process/delete/**").hasRole("ADMIN")
+                .antMatchers("/process/**").hasAnyRole("ADMIN","USER")
+                .antMatchers("/metrics/**").hasRole("USER")
+                .antMatchers("/fails/**").hasRole("USER")
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntrypoint)
                 .and()

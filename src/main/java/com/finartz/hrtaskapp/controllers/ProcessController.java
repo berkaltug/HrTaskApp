@@ -56,7 +56,7 @@ public class ProcessController {
         return new ResponseEntity<>(ResponseMessage.ADDED.get(),HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/update")
+    @PutMapping("/update/{id}")
     public ResponseEntity<String> updateProcess(@RequestBody ProcessDto processDto,@PathVariable("id")Integer processId){
         //not the perfect way about creationDate
         Process process=modelMapper.map(processDto,Process.class);
@@ -69,7 +69,7 @@ public class ProcessController {
         return new ResponseEntity<>(ResponseMessage.UPDATED.get(),HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteProcess(@PathVariable("id")Integer processId){
         Optional<Process> optionalProcess=processService.deleteProcess(processId);
         if(!optionalProcess.isPresent()){

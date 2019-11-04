@@ -40,7 +40,6 @@ public class UserController {
 	@GetMapping("/")
 	public Page<UserDto> getAllUser(@RequestParam("page") int page) {
 		return userService.getAllUsers(page);
-
 	}
 
 	@GetMapping("/{user_id}")
@@ -85,12 +84,10 @@ public class UserController {
 
 	@GetMapping("/name/{name}")
 	public List<UserDto> getUsersLike(@PathVariable("name") String name) {
-
 		return userService.getUserByName(name)
 				.stream()
 				.map(user -> modelMapper.map(user, UserDto.class))
 				.collect(Collectors.toList());
-
 	}
 
 	@PostMapping("/login")

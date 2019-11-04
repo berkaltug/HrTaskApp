@@ -54,7 +54,6 @@ public class TaskController {
 		return new ResponseEntity<>(ResponseMessage.ADDED.get(), HttpStatus.OK);
 	}
 
-
 	@PutMapping("/{task_id}/edit")
 	public ResponseEntity<String> updateTask(@PathVariable("task_id") Integer taskId, @RequestBody TaskDto newTask) {
 		//not the perfect way mapping creationDate
@@ -72,9 +71,7 @@ public class TaskController {
 		if (!deletedTask.isPresent())
 			return new ResponseEntity<>(ResponseMessage.DELETEERROR.get(), HttpStatus.INTERNAL_SERVER_ERROR);
 		return new ResponseEntity<>(ResponseMessage.DELETED.get(), HttpStatus.OK);
-
 	}
-
 
 	@PostMapping("/{task_id}/comment")
 	public ResponseEntity<String> commentTask(@PathVariable("task_id") Integer taskId, @RequestBody CommentDto commentDTO) {
